@@ -12,3 +12,90 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Veterinarian {
+  id_veterinarian Int    @id @default(autoincrement())
+  names           String
+  last_names      String
+  clinic_name     String
+  cellphone       String
+  pets            Pet[]
+}
+
+model Pet {
+  id_pet          Int      @id @default(autoincrement())
+  name            String
+  birthday        DateTime
+  sex             Sex
+  breed           String
+  coat_color      String
+  extra_data      String?
+  id_owner        Int
+  id_veterinarian Int
+
+  owner        Owner        @relation(fields: [id_owner], references: [id_owner], onDelete: Cascade)
+  veterinarian Veterinarian @relation(fields: [id_veterinarian], references: [id_veterinarian])
+  entries      Entry[]
+
+  @@index([id_owner], name: "idx_id_owner")
+  @@index([id_veterinarian], name: "idx_id_veterinarian")
+}
+
+model Owner {
+  id_owner   Int     @id @default(autoincrement())
+  names      String
+  last_names String
+  home       String
+  cellphone  String
+  email      String
+  facebook   String?
+  references String?
+  pets       Pet[]
+}
+
+model Entry {
+  id_entry    Int       @id @default(autoincrement())
+  id_pet      Int
+  id_service  Int
+  entry_date  DateTime
+  exit_date   DateTime?
+  annotations String?
+
+  pet            Pet             @relation(fields: [id_pet], references: [id_pet], onDelete: Cascade)
+  service        Service         @relation(fields: [id_service], references: [id_service], onDelete: Cascade)
+  questionnaires Questionnaire[]
+
+  @@index([id_pet], name: "idx_id_pet")
+  @@index([id_service], name: "idx_id_service")
+}
+
+model Service {
+  id_service  Int     @id @default(autoincrement())
+  name        String
+  description String?
+  entries     Entry[]
+}
+
+model Questionnaire {
+  id_questionnaire Int     @id @default(autoincrement())
+  id_entry         Int
+  id_question      Int
+  answer           String?
+
+  entry    Entry    @relation(fields: [id_entry], references: [id_entry], onDelete: Cascade)
+  question Question @relation(fields: [id_question], references: [id_question], onDelete: Cascade)
+
+  @@index([id_entry], name: "idx_id_entry")
+  @@index([id_question], name: "idx_id_question")
+}
+
+model Question {
+  id_question    Int             @id @default(autoincrement())
+  text           String
+  questionnaires Questionnaire[]
+}
+
+enum Sex {
+  M
+  F
+}
