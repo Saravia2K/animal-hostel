@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 import styles from "./page.module.scss";
 import image from "./images/inicio.png";
