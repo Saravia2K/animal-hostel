@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #d3d6d5;
+}
+
+.formContainer {
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  background-color: #fff;
+}
+
+.title {
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+.submitButton {
+  margin-top: 20px;
+  background-color: #4caf50;
+  color: white;
+  &:hover {
+    background-color: #388e3c;
+  }
+}

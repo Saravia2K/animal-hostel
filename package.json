@@ -11,18 +11,26 @@
     "start:db": "docker compose up --force-recreate -d"
   },
   "dependencies": {
+    "@emotion/react": "~11.13.3",
+    "@emotion/styled": "~11.13.0",
+    "@mui/icons-material": "~6.1.2",
+    "@mui/material": "~6.1.2",
     "@prisma/client": "5.20.0",
+    "bcryptjs": "~2.4.3",
     "next": "14.2.13",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "~7.53.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "~2.4.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "prisma": "~5.20.0",
+    "sass": "~1.79.4",
     "typescript": "^5"
   }
 }

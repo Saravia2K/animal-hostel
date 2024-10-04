@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #fff;
+}
+
+.logoContainer {
+  width: 350px; // Definimos el ancho deseado
+  height: 200px; // Definimos el alto deseado (rectangular)
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; // Ajusta la imagen dentro del contenedor sin distorsión
+  }
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 40px;
+}
+
+.button {
+  background-color: #4caf50;
+  color: #fff;
+  &:hover {
+    background-color: #388e3c;
+  }
+}
