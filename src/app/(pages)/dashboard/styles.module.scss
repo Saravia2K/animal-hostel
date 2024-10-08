@@ -1,0 +1,49 @@
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 10% 1fr;
+  max-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
+
+  & > * {
+    height: 100%;
+  }
+
+  .nav {
+    display: grid;
+    grid-template-rows: 1fr 75% 1fr;
+    padding: 25px 0px;
+
+    .links {
+      padding: 50% 0px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      .link-item {
+        width: 75%;
+      }
+    }
+
+    .logout-container {
+      position: relative;
+      cursor: pointer;
+
+      img {
+        position: relative;
+        width: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  .main {
+    background-color: var(--grey);
+    padding: 50px 7.5%;
+    overflow-y: auto;
+  }
+}
