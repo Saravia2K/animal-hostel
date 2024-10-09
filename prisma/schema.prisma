@@ -19,23 +19,25 @@ model Veterinarian {
   last_names      String
   clinic_name     String
   cellphone       String
-  pets            Pet[]
+
+  pets Pet[]
 }
 
 model Pet {
   id_pet          Int      @id @default(autoincrement())
+  id_owner        Int
+  id_veterinarian Int
   name            String
   birthday        DateTime
   sex             Sex
   breed           String
   coat_color      String
   extra_data      String?
-  id_owner        Int
-  id_veterinarian Int
 
   owner        Owner        @relation(fields: [id_owner], references: [id_owner], onDelete: Cascade)
   veterinarian Veterinarian @relation(fields: [id_veterinarian], references: [id_veterinarian])
-  entries      Entry[]
+
+  entries Entry[]
 
   @@index([id_owner], name: "idx_id_owner")
   @@index([id_veterinarian], name: "idx_id_veterinarian")
@@ -50,30 +52,41 @@ model Owner {
   email      String
   facebook   String?
   references String?
-  pets       Pet[]
+
+  pets Pet[]
 }
 
 model Entry {
   id_entry    Int       @id @default(autoincrement())
   id_pet      Int
-  id_service  Int
   entry_date  DateTime
   exit_date   DateTime?
   annotations String?
 
-  pet            Pet             @relation(fields: [id_pet], references: [id_pet], onDelete: Cascade)
-  service        Service         @relation(fields: [id_service], references: [id_service], onDelete: Cascade)
+  pet Pet @relation(fields: [id_pet], references: [id_pet], onDelete: Cascade)
+
   questionnaires Questionnaire[]
+  services       EntriesServices[]
 
   @@index([id_pet], name: "idx_id_pet")
-  @@index([id_service], name: "idx_id_service")
 }
 
 model Service {
   id_service  Int     @id @default(autoincrement())
   name        String
   description String?
-  entries     Entry[]
+
+  services EntriesServices[]
+}
+
+model EntriesServices {
+  id_entry_service Int     @id @default(autoincrement())
+  id_entry         Int
+  id_service       Int
+  entry            Entry   @relation(fields: [id_entry], references: [id_entry])
+  service          Service @relation(fields: [id_service], references: [id_service])
+
+  @@unique([id_entry, id_service])
 }
 
 model Questionnaire {
@@ -93,6 +106,14 @@ model Question {
   id_question    Int             @id @default(autoincrement())
   text           String
   questionnaires Questionnaire[]
+}
+
+model Notification {
+  id_notification Int     @id @default(autoincrement())
+  title           String  @db.VarChar(255)
+  description     String
+  seen            Boolean @default(false)
+  url             String? @db.VarChar(100)
 }
 
 enum Sex {
