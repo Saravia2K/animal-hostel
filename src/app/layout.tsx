@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
-import NProgressProvider from "../providers/NProgressProvider";
+import NProgressProvider from "@/providers/NProgressProvider";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import "./globals.css";
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={quicksand.className}>
-        <NProgressProvider>{children}</NProgressProvider>
+        <NProgressProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </NProgressProvider>
       </body>
     </html>
   );
