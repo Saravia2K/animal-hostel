@@ -1,21 +1,29 @@
 import { API_URL } from "@/consts";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { type TOwner } from "@/types";
+import { TOwner } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 
-export const fetchOwners = () =>
-  fetch(`${API_URL}/owners`).then((res) => res.json());
+export const fetchOwners = async (): Promise<TOwner[]> => {
+  const response = await fetch(`${API_URL}/owners`);
+
+  if (!response.ok) {
+    throw new Error("Error al obtener los propietarios");
+  }
+
+  return response.json();
+};
 
 export default function useOwners() {
-  const { data, refetch, isLoading } = useQuery<TOwner[]>({
+  const { data, refetch, isLoading, error } = useQuery<TOwner[]>({
     queryFn: fetchOwners,
     queryKey: ["owners"],
-    placeholderData: keepPreviousData,
     staleTime: Infinity,
+    retry: false,
   });
 
   return {
     owners: data,
     reloadOwners: refetch,
     ownersLoading: isLoading,
+    ownersError: error,
   };
 }
