@@ -8,3 +8,11 @@ export type TOwner = {
   facebook: string | null;
   references: string | null;
 };
+
+export type TVeterinarian = {
+  id_veterinarian: number;
+  names: string;
+  last_names: string;
+  clinic_name: string;
+  cellphone: string;
+};
