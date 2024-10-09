@@ -52,8 +52,12 @@ export async function GET(req: Request) {
       return NextResponse.json(owner);
     }
 
-    // Obtener todos los propietarios
-    const owners = await prisma.owner.findMany();
+    // Obtener todos los propietarios, ordenados por ID
+    const owners = await prisma.owner.findMany({
+      orderBy: {
+        id_owner: "asc",
+      },
+    });
     return NextResponse.json(owners);
   } catch (error) {
     console.error("Error fetching owners:", error);
