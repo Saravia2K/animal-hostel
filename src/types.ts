@@ -16,3 +16,15 @@ export type TVeterinarian = {
   clinic_name: string;
   cellphone: string;
 };
+
+export type TPet = {
+  id_pet: number;
+  id_owner: number;
+  id_veterinarian: number;
+  name: string;
+  birthday: string;
+  sex: string;
+  breed: string;
+  coat_color: string;
+  extra_data: string | null;
+};

@@ -28,7 +28,7 @@ model Pet {
   id_owner        Int
   id_veterinarian Int
   name            String
-  birthday        DateTime
+  birthday        DateTime @db.Date
   sex             Sex
   breed           String
   coat_color      String
