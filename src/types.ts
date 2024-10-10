@@ -47,3 +47,19 @@ export type TNotification = {
   seen: boolean;
   url: string;
 };
+
+export type TQuestionnaire = {
+  id_questionnaire: number;
+  entry: TEntry;
+  question: TQuestion;
+  answer: string;
+};
+
+export type TEntry = {
+  id_entry: number;
+  pet: TPet;
+  questionnaire: Omit<TQuestionnaire, "entry">[];
+  entry_date: string;
+  exit_date: string;
+  annotations: string;
+};
