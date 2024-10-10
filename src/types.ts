@@ -28,3 +28,22 @@ export type TPet = {
   coat_color: string;
   extra_data: string | null;
 };
+
+export type TService = {
+  id_service: number;
+  name: string;
+  description: string;
+};
+
+export type TQuestion = {
+  id_question: number;
+  text: string;
+};
+
+export type TNotification = {
+  id_notification: number;
+  title: string;
+  description: string;
+  seen: boolean;
+  url: string;
+};
