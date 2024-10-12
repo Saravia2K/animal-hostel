@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import NProgressProvider from "@/providers/NProgressProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import LocalizationProvider from "@/providers/LocalizationProvider";
+import LoadingOverlayProvider from "@/providers/LoadingOverlayProvider";
 
 import "./globals.css";
-import LocalizationProvider from "@/providers/LocalizationProvider";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={quicksand.className}>
         <NProgressProvider>
           <ReactQueryProvider>
-            <LocalizationProvider>{children}</LocalizationProvider>
+            <LocalizationProvider>
+              <LoadingOverlayProvider>{children}</LoadingOverlayProvider>
+            </LocalizationProvider>
           </ReactQueryProvider>
         </NProgressProvider>
       </body>
