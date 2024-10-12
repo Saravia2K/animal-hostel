@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import {
   Radio,
   Button,
@@ -12,16 +13,22 @@ import {
 import Input from "../Input";
 import Calendar from "../Calendar";
 import Select from "../Select";
+
 import useOwners from "@/hooks/useOwners";
 import useVeterinarians from "@/hooks/useVeterinarians";
+import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 
 import styles from "./PetForm.module.scss";
 
 export default function PetForm() {
+  const { setOpenState } = useLoadingOverlay();
   const { owners, ownersLoading } = useOwners();
   const { veterinarians, veterinariansLoading } = useVeterinarians();
 
-  if (ownersLoading || veterinariansLoading) return <></>;
+  useEffect(() => {
+    setOpenState(ownersLoading || veterinariansLoading);
+  }, [ownersLoading, veterinariansLoading, setOpenState]);
+
   return (
     <Grid container spacing={5} component="form" className={styles["pet-form"]}>
       <Grid size={6}>
@@ -85,7 +92,6 @@ export default function PetForm() {
           label="Información extra (alergias, comportamiento, etc.)"
           placeholder="Escribe la información extra aquí"
           rows={4}
-          maxRows={4}
         />
       </Grid>
       <Grid size={6} display="flex" justifyContent="center" alignItems="center">
