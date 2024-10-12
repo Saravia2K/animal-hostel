@@ -1,0 +1,10 @@
+.pet-form {
+  width: 100%;
+  background-color: #fff;
+  padding: 5%;
+  border-radius: 10px;
+
+  .radio-btn :global {
+    color: var(--orange) !important;
+  }
+}

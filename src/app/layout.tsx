@@ -4,6 +4,7 @@ import NProgressProvider from "@/providers/NProgressProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import "./globals.css";
+import LocalizationProvider from "@/providers/LocalizationProvider";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={quicksand.className}>
         <NProgressProvider>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <ReactQueryProvider>
+            <LocalizationProvider>{children}</LocalizationProvider>
+          </ReactQueryProvider>
         </NProgressProvider>
       </body>
     </html>

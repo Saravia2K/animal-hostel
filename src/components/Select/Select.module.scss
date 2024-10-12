@@ -1,0 +1,11 @@
+.select-container :global {
+  .MuiInputBase-root {
+    border-radius: 12px;
+  }
+
+  .Mui-focused {
+    .MuiOutlinedInput-notchedOutline {
+      border-color: var(--orange) !important;
+    }
+  }
+}
