@@ -4,15 +4,18 @@ import { Button, CircularProgress, Grid2 as Grid } from "@mui/material";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import Input from "../Input";
-import Title from "../Title";
+import Input from "@/components/Input";
+import Title from "@/components/Title";
 
-import createOwner from "@/services/owners/createOwner";
-import updateOwner from "@/services/owners/updateOwner";
-import useOwners from "@/hooks/useOwners";
+import createVeterinarian from "@/services/veterinarians/createVeterinarian";
+import updateVeterinarian from "@/services/veterinarians/updateVeterinarian";
+import useVeterinarians from "@/hooks/useVeterinarians";
 
-export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
-  const { reloadOwners } = useOwners();
+export default function VeterinarianForm({
+  initialValues,
+  onSuccessForm,
+}: TProps) {
+  const { reloadVeterinarians } = useVeterinarians();
 
   const {
     register,
@@ -22,26 +25,27 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
     defaultValues: {
       names: initialValues?.names || "",
       last_names: initialValues?.last_names || "",
-      home: initialValues?.home || "",
+      clinic_name: initialValues?.clinic_name || "",
       cellphone: initialValues?.cellphone || "",
-      email: initialValues?.cellphone || "",
     },
   });
 
   const handleFormSubmit: SubmitHandler<TFormValues> = async (data) => {
     try {
       let success: boolean;
-      if (initialValues?.id_owner == undefined) {
-        success = await createOwner(data);
+      if (initialValues?.id_veterinarian == undefined) {
+        success = await createVeterinarian(data);
       } else {
-        success = await updateOwner(initialValues.id_owner, data);
+        success = await updateVeterinarian(initialValues.id_veterinarian, data);
       }
 
       const baseMessage = success
-        ? "Dueño {keyword} con éxito"
-        : "Error al {keyword} un dueño";
-      const successKeyword = initialValues?.id_owner ? "actualizado" : "creado";
-      const notSuccessKeyword = initialValues?.id_owner
+        ? "Veterinario {keyword} con éxito"
+        : "Error al {keyword} un veterinario";
+      const successKeyword = initialValues?.id_veterinarian
+        ? "actualizado"
+        : "creado";
+      const notSuccessKeyword = initialValues?.id_veterinarian
         ? "actualizar"
         : "crear";
       const message = baseMessage.replace(
@@ -50,7 +54,7 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
       );
 
       if (success) {
-        await reloadOwners();
+        await reloadVeterinarians();
 
         if (onSuccessForm) onSuccessForm();
       }
@@ -61,8 +65,8 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
     } catch (error) {
       if (process.env.NODE_ENV === "development") console.error(error);
 
-      const verb = initialValues?.id_owner ? "actualizar" : "crear";
-      toast(`Error al ${verb} un dueño`, {
+      const verb = initialValues?.id_veterinarian ? "actualizar" : "crear";
+      toast(`Error al ${verb} un veterinario`, {
         type: "error",
       });
     }
@@ -78,7 +82,11 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
     >
       <Grid size={12}>
         <Title
-          text={initialValues?.id_owner ? "Actualizar dueño" : "Agregar dueño"}
+          text={
+            initialValues?.id_veterinarian
+              ? "Actualizar veterinario"
+              : "Agregar veterinario"
+          }
         />
       </Grid>
       <Grid size={6}>
@@ -100,10 +108,9 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
       <Grid size={6}>
         <Input
           required
-          label="Email"
-          placeholder="Escriba el email aquí"
-          type="email"
-          {...register("email")}
+          label="Nombre de clínica"
+          placeholder="Escriba el nombre de la clínica aquí"
+          {...register("clinic_name")}
         />
       </Grid>
       <Grid size={6}>
@@ -114,14 +121,6 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
           type="tel"
           autoComplete="off"
           {...register("cellphone")}
-        />
-      </Grid>
-      <Grid size={12}>
-        <Input
-          required
-          label="Dirección"
-          placeholder="Escriba la dirección aquí"
-          {...register("home")}
         />
       </Grid>
       <Grid size={12}>
@@ -137,7 +136,7 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
         >
           {isSubmitting ? (
             <CircularProgress sx={{ color: "var(--orange)" }} />
-          ) : initialValues?.id_owner ? (
+          ) : initialValues?.id_veterinarian ? (
             "Actualizar"
           ) : (
             "Agregar"
@@ -151,14 +150,13 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
 type TFormValues = {
   names: string;
   last_names: string;
-  email: string;
+  clinic_name: string;
   cellphone: string;
-  home: string;
 };
 
 type TProps = {
   initialValues?: {
-    id_owner?: number;
+    id_veterinarian?: number;
   } & Partial<TFormValues>;
   onSuccessForm?: () => void;
 };

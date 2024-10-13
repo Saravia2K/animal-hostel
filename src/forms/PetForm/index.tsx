@@ -10,10 +10,10 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-import Input from "../Input";
-import Calendar from "../Calendar";
-import Select from "../Select";
-import Modal from "../Modal";
+import Input from "@/components/Input";
+import Calendar from "@/components/Calendar";
+import Select from "@/components/Select";
+import Modal from "@/components/Modal";
 import OwnerForm from "../OwnerForm";
 import VeterinarianForm from "../VeterinarianForm";
 
@@ -122,7 +122,7 @@ export default function PetForm() {
         open={formToShow == "veterinarian"}
         onClose={handleCloseFormToShow}
       >
-        <VeterinarianForm />
+        <VeterinarianForm onSuccessForm={handleCloseFormToShow} />
       </Modal>
     </Grid>
   );
