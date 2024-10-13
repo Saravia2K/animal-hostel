@@ -10,7 +10,7 @@ import {
 import styles from "./Calendar.module.scss";
 
 export default function Calendar(props: TProps) {
-  const { label, ..._props } = props;
+  const { label, error, helperText, ..._props } = props;
 
   return (
     <div className={styles["calendar-container"]}>
@@ -29,6 +29,8 @@ export default function Calendar(props: TProps) {
           },
           textField: {
             fullWidth: true,
+            error,
+            helperText,
           },
         }}
         {..._props}
@@ -37,4 +39,10 @@ export default function Calendar(props: TProps) {
   );
 }
 
-type TProps = Omit<DatePickerProps<PickerValidDate>, "className" | "classes">;
+type TProps = Omit<
+  DatePickerProps<PickerValidDate>,
+  "className" | "classes"
+> & {
+  error?: boolean;
+  helperText?: string;
+};

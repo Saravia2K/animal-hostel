@@ -5,7 +5,9 @@ import {
   MenuItem,
   IconButton,
   SelectProps,
+  FormControl,
   Grid2 as Grid,
+  FormHelperText,
   Select as MUISelect,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -13,7 +15,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import styles from "./Select.module.scss";
 
 export default function Select(props: TProps) {
-  const { items, label, onAddBtnClick, ..._props } = props;
+  const { items, label, onAddBtnClick, error, helperText, ..._props } = props;
 
   return (
     <Grid container columnSpacing={3} className={styles["select-container"]}>
@@ -40,13 +42,16 @@ export default function Select(props: TProps) {
         </Grid>
       )}
       <Grid size={onAddBtnClick ? 11 : 12}>
-        <MUISelect fullWidth {..._props}>
-          {items?.map(({ value, label }, i) => (
-            <MenuItem key={i} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </MUISelect>
+        <FormControl fullWidth error={error}>
+          <MUISelect fullWidth {..._props}>
+            {items?.map(({ value, label }, i) => (
+              <MenuItem key={i} value={value}>
+                {label}
+              </MenuItem>
+            ))}
+          </MUISelect>
+          {helperText && <FormHelperText>{helperText}</FormHelperText>}
+        </FormControl>
       </Grid>
     </Grid>
   );
@@ -55,4 +60,6 @@ export default function Select(props: TProps) {
 type TProps = SelectProps & {
   items?: { value: string | number; label: string | number }[];
   onAddBtnClick?: () => void;
+  error?: boolean;
+  helperText?: string;
 };
