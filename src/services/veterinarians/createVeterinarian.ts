@@ -1,6 +1,6 @@
 import { type TVeterinarian } from "@/types";
 
-export default async function createVeterinarian(data: TVeterinarian) {
+export default async function createVeterinarian(data: Partial<TVeterinarian>) {
   try {
     const response = await fetch("/api/veterinarians", {
       method: "POST",

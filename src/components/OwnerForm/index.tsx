@@ -56,7 +56,7 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
       }
 
       toast(message, {
-        type: "success",
+        type: success ? "success" : "error",
       });
     } catch (error) {
       if (process.env.NODE_ENV === "development") console.error(error);

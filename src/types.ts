@@ -1,3 +1,7 @@
+//#region Util types
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+//#endregion
+
 export type TOwner = {
   id_owner: number;
   names: string;
