@@ -1,6 +1,9 @@
 import { TPet } from "@/types";
 
-export default async function updatePet(id: number, data: TPet) {
+export default async function updatePet(
+  id: number,
+  data: Partial<Omit<TPet, "id_pet">>
+) {
   try {
     const response = await fetch(`/api/pets/${id}`, {
       method: "PUT",

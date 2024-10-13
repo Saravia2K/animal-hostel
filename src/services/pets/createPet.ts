@@ -1,6 +1,6 @@
-import { TPet } from "@/types";
+import { PartialBy, TPet } from "@/types";
 
-export default async function createPet(data: TPet) {
+export default async function createPet(data: TData) {
   try {
     const response = await fetch("/api/pets", {
       method: "POST",
@@ -25,3 +25,5 @@ export default async function createPet(data: TPet) {
     return false;
   }
 }
+
+type TData = Omit<PartialBy<TPet, "extra_data">, "id_pet">;
