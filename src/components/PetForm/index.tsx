@@ -15,6 +15,7 @@ import Calendar from "../Calendar";
 import Select from "../Select";
 import Modal from "../Modal";
 import OwnerForm from "../OwnerForm";
+import VeterinarianForm from "../VeterinarianForm";
 
 import useOwners from "@/hooks/useOwners";
 import useVeterinarians from "@/hooks/useVeterinarians";
@@ -26,11 +27,15 @@ export default function PetForm() {
   const { setOpenState } = useLoadingOverlay();
   const { owners, ownersLoading } = useOwners();
   const { veterinarians, veterinariansLoading } = useVeterinarians();
-  const [showOwnerModal, setShowOwnerModal] = useState(false);
+  const [formToShow, setFormToShow] = useState<"owner" | "veterinarian" | null>(
+    null
+  );
 
   useEffect(() => {
     setOpenState(ownersLoading || veterinariansLoading);
   }, [ownersLoading, veterinariansLoading, setOpenState]);
+
+  const handleCloseFormToShow = () => setFormToShow(null);
 
   return (
     <Grid container spacing={5} component="form" className={styles["pet-form"]}>
@@ -72,7 +77,7 @@ export default function PetForm() {
       <Grid size={6}>
         <Select
           label="Dueño"
-          onAddBtnClick={() => setShowOwnerModal(true)}
+          onAddBtnClick={() => setFormToShow("owner")}
           items={owners?.map((o) => ({
             label: `${o.names} ${o.last_names}`,
             value: o.id_owner,
@@ -82,7 +87,7 @@ export default function PetForm() {
       <Grid size={6}>
         <Select
           label="Veterinario"
-          onAddBtnClick={() => alert("Adiós")}
+          onAddBtnClick={() => setFormToShow("veterinarian")}
           items={veterinarians?.map((v) => ({
             label: `${v.names} ${v.last_names}`,
             value: v.id_veterinarian,
@@ -110,8 +115,14 @@ export default function PetForm() {
           Agregar
         </Button>
       </Grid>
-      <Modal open={showOwnerModal} onClose={() => setShowOwnerModal(false)}>
+      <Modal open={formToShow == "owner"} onClose={handleCloseFormToShow}>
         <OwnerForm />
+      </Modal>
+      <Modal
+        open={formToShow == "veterinarian"}
+        onClose={handleCloseFormToShow}
+      >
+        <VeterinarianForm />
       </Modal>
     </Grid>
   );

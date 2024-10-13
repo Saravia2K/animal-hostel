@@ -1,14 +1,14 @@
 "use client";
 
 import { Button, Grid2 as Grid } from "@mui/material";
-import Input from "../Input";
 import Title from "../Title";
+import Input from "../Input";
 
-export default function OwnerForm() {
+export default function VeterinarianForm() {
   return (
     <Grid container component="form" spacing={3} sx={{ width: "50dvw" }}>
       <Grid size={12}>
-        <Title text="Agregar dueño" />
+        <Title text="Agregar veterinario" />
       </Grid>
       <Grid size={6}>
         <Input label="Nombres" placeholder="Escriba los nombres aquí" />
@@ -17,7 +17,10 @@ export default function OwnerForm() {
         <Input label="Apellidos" placeholder="Escriba los apellidos aquí" />
       </Grid>
       <Grid size={6}>
-        <Input label="Email" placeholder="Escriba el email aquí" type="email" />
+        <Input
+          label="Nombre de clínica"
+          placeholder="Escriba el nombre de la clínica aquí"
+        />
       </Grid>
       <Grid size={6}>
         <Input
@@ -26,9 +29,6 @@ export default function OwnerForm() {
           type="tel"
           autoComplete="off"
         />
-      </Grid>
-      <Grid size={12}>
-        <Input label="Dirección" placeholder="Escriba la dirección aquí" />
       </Grid>
       <Grid size={12}>
         <Button
