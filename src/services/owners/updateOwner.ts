@@ -1,6 +1,6 @@
-import { TOwner } from "@/types";
+import type { TOwner } from "@/types";
 
-export default async function updateOwner(id: number, data: TOwner) {
+export default async function updateOwner(id: number, data: TData) {
   try {
     const response = await fetch(`/api/owners/${id}`, {
       method: "PUT",
@@ -25,3 +25,5 @@ export default async function updateOwner(id: number, data: TOwner) {
     return false;
   }
 }
+
+type TData = Omit<Partial<TOwner>, "id_owner">;

@@ -1,10 +1,14 @@
 "use client";
 
+import React, { forwardRef, type Ref } from "react";
 import { Box, TextField, type TextFieldProps } from "@mui/material";
 
 import styles from "./Input.module.scss";
 
-export default function Input(props: TProps) {
+const Input = forwardRef(function Input(
+  props: TProps,
+  ref: Ref<HTMLInputElement>
+) {
   const { label, ..._props } = props;
 
   return (
@@ -17,9 +21,11 @@ export default function Input(props: TProps) {
       >
         {label}
       </Box>
-      <TextField fullWidth {..._props} />
+      <TextField fullWidth inputRef={ref} {..._props} />
     </div>
   );
-}
+});
+
+export default Input;
 
 type TProps = Omit<TextFieldProps, "className" | "classes">;

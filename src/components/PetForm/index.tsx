@@ -116,7 +116,7 @@ export default function PetForm() {
         </Button>
       </Grid>
       <Modal open={formToShow == "owner"} onClose={handleCloseFormToShow}>
-        <OwnerForm />
+        <OwnerForm onSuccessForm={handleCloseFormToShow} />
       </Modal>
       <Modal
         open={formToShow == "veterinarian"}

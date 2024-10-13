@@ -1,6 +1,6 @@
-import { TOwner } from "@/types";
+import type { PartialBy, TOwner } from "@/types";
 
-export default async function createOwner(data: TOwner) {
+export default async function createOwner(data: TData) {
   try {
     const response = await fetch("/api/owners", {
       method: "POST",
@@ -25,3 +25,5 @@ export default async function createOwner(data: TOwner) {
     return false;
   }
 }
+
+type TData = Omit<PartialBy<TOwner, "facebook" | "references">, "id_owner">;
