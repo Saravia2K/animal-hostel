@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef, type Ref } from "react";
 import {
   Box,
   MenuItem,
@@ -14,7 +15,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import styles from "./Select.module.scss";
 
-export default function Select(props: TProps) {
+const Select = forwardRef(function Select(
+  props: TProps,
+  ref: Ref<HTMLSelectElement>
+) {
   const { items, label, onAddBtnClick, error, helperText, ..._props } = props;
 
   return (
@@ -43,7 +47,7 @@ export default function Select(props: TProps) {
       )}
       <Grid size={onAddBtnClick ? 11 : 12}>
         <FormControl fullWidth error={error}>
-          <MUISelect fullWidth {..._props}>
+          <MUISelect fullWidth ref={ref} {..._props}>
             {items?.map(({ value, label }, i) => (
               <MenuItem key={i} value={value}>
                 {label}
@@ -55,7 +59,9 @@ export default function Select(props: TProps) {
       </Grid>
     </Grid>
   );
-}
+});
+
+export default Select;
 
 type TProps = SelectProps & {
   items?: { value: string | number; label: string | number }[];
