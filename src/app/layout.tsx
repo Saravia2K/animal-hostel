@@ -4,8 +4,10 @@ import NProgressProvider from "@/providers/NProgressProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import LocalizationProvider from "@/providers/LocalizationProvider";
 import LoadingOverlayProvider from "@/providers/LoadingOverlayProvider";
+import ToastifyProvider from "@/providers/ToastifyProvider";
 
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 
@@ -24,7 +26,9 @@ export default function RootLayout({
         <NProgressProvider>
           <ReactQueryProvider>
             <LocalizationProvider>
-              <LoadingOverlayProvider>{children}</LoadingOverlayProvider>
+              <ToastifyProvider>
+                <LoadingOverlayProvider>{children}</LoadingOverlayProvider>
+              </ToastifyProvider>
             </LocalizationProvider>
           </ReactQueryProvider>
         </NProgressProvider>
