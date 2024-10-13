@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Radio,
   Button,
@@ -13,6 +13,8 @@ import {
 import Input from "../Input";
 import Calendar from "../Calendar";
 import Select from "../Select";
+import Modal from "../Modal";
+import OwnerForm from "../OwnerForm";
 
 import useOwners from "@/hooks/useOwners";
 import useVeterinarians from "@/hooks/useVeterinarians";
@@ -24,6 +26,7 @@ export default function PetForm() {
   const { setOpenState } = useLoadingOverlay();
   const { owners, ownersLoading } = useOwners();
   const { veterinarians, veterinariansLoading } = useVeterinarians();
+  const [showOwnerModal, setShowOwnerModal] = useState(false);
 
   useEffect(() => {
     setOpenState(ownersLoading || veterinariansLoading);
@@ -69,7 +72,7 @@ export default function PetForm() {
       <Grid size={6}>
         <Select
           label="Dueño"
-          onAddBtnClick={() => alert("Hola")}
+          onAddBtnClick={() => setShowOwnerModal(true)}
           items={owners?.map((o) => ({
             label: `${o.names} ${o.last_names}`,
             value: o.id_owner,
@@ -107,6 +110,9 @@ export default function PetForm() {
           Agregar
         </Button>
       </Grid>
+      <Modal open={showOwnerModal} onClose={() => setShowOwnerModal(false)}>
+        <OwnerForm />
+      </Modal>
     </Grid>
   );
 }
