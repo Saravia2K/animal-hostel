@@ -8,8 +8,7 @@ import { usePathname } from "next/navigation";
 import styles from "./styles.module.scss";
 import logo from "@/assets/images/logo.png";
 import logout from "@/assets/images/logout.png";
-import entrenamientoIcon from "@/assets/images/entrenamiento_icon.png";
-import daycareIcon from "@/assets/images/daycare_icon.png";
+import huellaIcon from "@/assets/images/huella_icon.png";
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
@@ -60,7 +59,4 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
   );
 }
 
-const NAV_ITEMS = [
-  { name: "Entrenamiento", path: "entrenamiento", icon: entrenamientoIcon },
-  { name: "Daycare", path: "daycare", icon: daycareIcon },
-];
+const NAV_ITEMS = [{ name: "Mascotas", path: "mascotas", icon: huellaIcon }];

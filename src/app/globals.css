@@ -26,3 +26,7 @@ img {
   width: 100%;
   height: auto;
 }
+
+.MuiButtonBase-root {
+  text-transform: none !important;
+}
