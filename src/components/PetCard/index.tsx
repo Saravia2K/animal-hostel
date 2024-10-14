@@ -10,9 +10,9 @@ import {
 
 import dogImage from "@/assets/images/pet_card_image.png";
 
-export default function PetCard({ name }: PetCardProps) {
+export default function PetCard({ name, onClick }: PetCardProps) {
   return (
-    <Card sx={cardSX}>
+    <Card sx={cardSX} onClick={onClick}>
       <CardContent>
         <Typography
           variant="h6"
@@ -50,4 +50,5 @@ const avatarSX: SxProps = {
 
 type PetCardProps = {
   name: string;
+  onClick?: () => void;
 };

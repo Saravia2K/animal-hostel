@@ -26,4 +26,10 @@ export default async function createPet(data: TData) {
   }
 }
 
-type TData = Omit<PartialBy<TPet, "extra_data">, "id_pet">;
+type TData = Omit<
+  PartialBy<TPet, "extra_data">,
+  "id_pet" | "owner" | "veterinarian" | "entries"
+> & {
+  id_owner: string | number;
+  id_veterinarian: string | number;
+};

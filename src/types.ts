@@ -23,14 +23,15 @@ export type TVeterinarian = {
 
 export type TPet = {
   id_pet: number;
-  id_owner: number;
-  id_veterinarian: number;
   name: string;
-  birthday: string;
-  sex: string;
+  sex: "F" | "M";
   breed: string;
   coat_color: string;
+  birthday: string;
   extra_data: string | null;
+  owner: TOwner;
+  veterinarian: TVeterinarian;
+  entries: TEntry;
 };
 
 export type TService = {

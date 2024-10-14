@@ -1,9 +1,6 @@
 import { TPet } from "@/types";
 
-export default async function updatePet(
-  id: number,
-  data: Partial<Omit<TPet, "id_pet">>
-) {
+export default async function updatePet(id: number, data: TData) {
   try {
     const response = await fetch(`/api/pets/${id}`, {
       method: "PUT",
@@ -28,3 +25,10 @@ export default async function updatePet(
     return false;
   }
 }
+
+type TData = Partial<
+  Omit<TPet, "id_pet" | "owner" | "veterinarian" | "entries">
+> & {
+  id_owner?: string | number;
+  id_veterinarian?: string | number;
+};

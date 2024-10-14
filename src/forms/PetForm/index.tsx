@@ -45,6 +45,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
     control,
     handleSubmit,
     formState: { isSubmitting, errors },
+    reset,
   } = useForm<TFormValues>({
     defaultValues: {
       name: initialValues?.name || "",
@@ -61,6 +62,10 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
   useEffect(() => {
     setOpenState(ownersLoading || veterinariansLoading);
   }, [ownersLoading, veterinariansLoading, setOpenState]);
+
+  useEffect(() => {
+    if (initialValues) reset(initialValues);
+  }, [initialValues]);
 
   const handleFormSubmit: SubmitHandler<TFormValues> = async (data) => {
     if (!data.extra_data) {
@@ -182,31 +187,45 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
         />
       </Grid>
       <Grid size={6}>
-        <Select
-          label="Dueño"
-          onAddBtnClick={() => setFormToShow("owner")}
-          items={owners?.map((o) => ({
-            label: `${o.names} ${o.last_names}`,
-            value: o.id_owner,
-          }))}
-          {...register("id_owner", { required: "Este campo es requerido" })}
-          error={!!errors.id_owner}
-          helperText={errors.id_owner?.message}
+        <Controller
+          name="id_owner"
+          control={control}
+          rules={{ required: "Este campo es requerido" }}
+          render={({ field }) => (
+            <Select
+              label="Dueño"
+              onAddBtnClick={() => setFormToShow("owner")}
+              items={owners?.map((o) => ({
+                label: `${o.names} ${o.last_names}`,
+                value: o.id_owner,
+              }))}
+              value={field.value || ""}
+              onChange={field.onChange}
+              error={!!errors.id_owner}
+              helperText={errors.id_owner?.message}
+            />
+          )}
         />
       </Grid>
       <Grid size={6}>
-        <Select
-          label="Veterinario"
-          onAddBtnClick={() => setFormToShow("veterinarian")}
-          items={veterinarians?.map((v) => ({
-            label: `${v.names} ${v.last_names}`,
-            value: v.id_veterinarian,
-          }))}
-          {...register("id_veterinarian", {
-            required: "Este campo es requerido",
-          })}
-          error={!!errors.id_veterinarian}
-          helperText={errors.id_veterinarian?.message}
+        <Controller
+          name="id_veterinarian"
+          control={control}
+          rules={{ required: "Este campo es requerido" }}
+          render={({ field }) => (
+            <Select
+              label="Veterinario"
+              onAddBtnClick={() => setFormToShow("veterinarian")}
+              items={veterinarians?.map((v) => ({
+                label: `${v.names} ${v.last_names}`,
+                value: v.id_veterinarian,
+              }))}
+              value={field.value || ""}
+              onChange={field.onChange}
+              error={!!errors.id_veterinarian}
+              helperText={errors.id_veterinarian?.message}
+            />
+          )}
         />
       </Grid>
       <Grid size={6}>

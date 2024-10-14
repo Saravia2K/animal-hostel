@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button, Grid2 as Grid } from "@mui/material";
+import { useRouter } from "next-nprogress-bar";
 import type { TPet } from "@/types";
 
 import Title from "@/components/Title";
@@ -15,6 +16,7 @@ export default function MascotasPage() {
   const { setOpenState } = useLoadingOverlay();
   const { pets, petsLoading } = usePets();
   const [currentPets, setCurrentPets] = useState<TPet[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     setOpenState(petsLoading);
@@ -45,7 +47,7 @@ export default function MascotasPage() {
               backgroundColor: "var(--darkGreen)",
               height: "fit-content",
             }}
-            href="/dashboard/mascotas/agregar"
+            onClick={() => router.push("/dashboard/mascotas/agregar")}
           >
             Añadir mascota
           </Button>
@@ -57,7 +59,10 @@ export default function MascotasPage() {
       <Grid container spacing={3} mt={5}>
         {currentPets.map((p, i) => (
           <Grid key={i} size={3}>
-            <PetCard name={p.name} />
+            <PetCard
+              name={p.name}
+              onClick={() => router.push(`/dashboard/mascotas/${p.id_pet}`)}
+            />
           </Grid>
         ))}
       </Grid>

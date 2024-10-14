@@ -46,9 +46,20 @@ export async function GET(req: Request) {
 
   try {
     if (id_pet) {
-      // Obtener un pet específico por ID
       const pet = await prisma.pet.findUnique({
         where: { id_pet: Number(id_pet) },
+        select: {
+          id_pet: true,
+          name: true,
+          sex: true,
+          breed: true,
+          coat_color: true,
+          birthday: true,
+          extra_data: true,
+          owner: true,
+          veterinarian: true,
+          entries: true,
+        },
       });
       if (!pet) {
         return NextResponse.json(
