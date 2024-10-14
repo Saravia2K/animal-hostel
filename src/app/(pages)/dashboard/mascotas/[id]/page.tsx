@@ -26,7 +26,7 @@ export default function MascotaDetailsPage() {
 
   useEffect(() => {
     setOpenState(petLoading);
-  }, [petLoading]);
+  }, [petLoading, setOpenState]);
 
   const handleDeleteButton = () => {
     if (pet?.id_pet == undefined) return;
@@ -45,6 +45,7 @@ export default function MascotaDetailsPage() {
 
           return true;
         } catch (error) {
+          if (process.env.NODE_ENV == "development") console.error(error);
           Swal.showValidationMessage("Error al intentar eliminar la mascota");
         }
       },

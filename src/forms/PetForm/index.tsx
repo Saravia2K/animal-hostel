@@ -65,7 +65,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
 
   useEffect(() => {
     if (initialValues) reset(initialValues);
-  }, [initialValues]);
+  }, [initialValues, reset]);
 
   const handleFormSubmit: SubmitHandler<TFormValues> = async (data) => {
     if (!data.extra_data) {

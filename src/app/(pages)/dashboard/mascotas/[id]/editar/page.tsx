@@ -20,7 +20,7 @@ export default function EditarMascotaPage() {
 
   useEffect(() => {
     setOpenState(petLoading);
-  }, [petLoading]);
+  }, [petLoading, setOpenState]);
 
   return (
     <>
