@@ -11,6 +11,7 @@ export type TOwner = {
   email: string;
   facebook: string | null;
   references: string | null;
+  pets: TPet[];
 };
 
 export type TVeterinarian = {

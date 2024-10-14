@@ -26,4 +26,7 @@ export default async function createOwner(data: TData) {
   }
 }
 
-type TData = Omit<PartialBy<TOwner, "facebook" | "references">, "id_owner">;
+type TData = Omit<
+  PartialBy<TOwner, "facebook" | "references">,
+  "id_owner" | "pets"
+>;

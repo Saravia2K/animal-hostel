@@ -11,7 +11,11 @@ import createOwner from "@/services/owners/createOwner";
 import updateOwner from "@/services/owners/updateOwner";
 import useOwners from "@/hooks/useOwners";
 
-export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
+export default function OwnerForm({
+  initialValues,
+  onSuccessForm,
+  independent,
+}: TProps) {
   const { reloadOwners } = useOwners();
 
   const {
@@ -24,7 +28,7 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
       last_names: initialValues?.last_names || "",
       home: initialValues?.home || "",
       cellphone: initialValues?.cellphone || "",
-      email: initialValues?.cellphone || "",
+      email: initialValues?.email || "",
     },
   });
 
@@ -73,14 +77,23 @@ export default function OwnerForm({ initialValues, onSuccessForm }: TProps) {
       container
       component="form"
       spacing={3}
-      sx={{ width: "50dvw" }}
+      borderRadius={independent ? 3 : 0}
+      p={independent ? 7 : 0}
+      sx={{
+        width: independent ? "100%" : "50dvw",
+        backgroundColor: "#fff",
+      }}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      <Grid size={12}>
-        <Title
-          text={initialValues?.id_owner ? "Actualizar dueño" : "Agregar dueño"}
-        />
-      </Grid>
+      {!independent && (
+        <Grid size={12}>
+          <Title
+            text={
+              initialValues?.id_owner ? "Actualizar dueño" : "Agregar dueño"
+            }
+          />
+        </Grid>
+      )}
       <Grid size={6}>
         <Input
           required
@@ -161,4 +174,5 @@ type TProps = {
     id_owner?: number;
   } & Partial<TFormValues>;
   onSuccessForm?: () => void;
+  independent?: boolean;
 };

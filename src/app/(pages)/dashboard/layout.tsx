@@ -9,6 +9,7 @@ import styles from "./styles.module.scss";
 import logo from "@/assets/images/logo.png";
 import logout from "@/assets/images/logout.png";
 import huellaIcon from "@/assets/images/huella_icon.png";
+import clientesIcon from "@/assets/images/clientes_icon.png";
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
@@ -59,4 +60,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
   );
 }
 
-const NAV_ITEMS = [{ name: "Mascotas", path: "mascotas", icon: huellaIcon }];
+const NAV_ITEMS = [
+  { name: "Mascotas", path: "mascotas", icon: huellaIcon },
+  { name: "Clientes", path: "clientes", icon: clientesIcon },
+];

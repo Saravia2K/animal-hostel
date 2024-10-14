@@ -42,6 +42,9 @@ export async function GET(req: Request) {
       // Obtener un propietario específico por ID
       const owner = await prisma.owner.findUnique({
         where: { id_owner: Number(id_owner) },
+        include: {
+          pets: true,
+        },
       });
       if (!owner) {
         return NextResponse.json(
