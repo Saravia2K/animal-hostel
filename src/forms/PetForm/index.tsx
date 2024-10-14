@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Radio,
   Button,
@@ -25,7 +26,6 @@ import useOwners from "@/hooks/useOwners";
 import useVeterinarians from "@/hooks/useVeterinarians";
 import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import usePets from "@/hooks/usePets";
-
 import createPet from "@/services/pets/createPet";
 import updatePet from "@/services/pets/updatePet";
 
@@ -39,6 +39,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
   const [formToShow, setFormToShow] = useState<"owner" | "veterinarian" | null>(
     null
   );
+  const qc = useQueryClient();
 
   const {
     register,
@@ -92,6 +93,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
 
       if (success) {
         await reloadPets();
+        qc.invalidateQueries({ queryKey: ["owners", data.id_owner] });
         if (onSuccessForm) onSuccessForm();
       }
 

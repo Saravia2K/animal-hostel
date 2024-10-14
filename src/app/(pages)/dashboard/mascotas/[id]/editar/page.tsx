@@ -40,6 +40,7 @@ export default function EditarMascotaPage() {
         onSuccessForm={() => {
           router.push("/dashboard/mascotas");
           qc.invalidateQueries({ queryKey: ["pets", pet?.id_pet] });
+          qc.invalidateQueries({ queryKey: ["owners", pet?.owner.id_owner] });
         }}
       />
     </>
