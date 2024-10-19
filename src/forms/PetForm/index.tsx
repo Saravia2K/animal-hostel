@@ -24,7 +24,6 @@ import VeterinarianForm from "../VeterinarianForm";
 
 import useOwners from "@/hooks/useOwners";
 import useVeterinarians from "@/hooks/useVeterinarians";
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import usePets from "@/hooks/usePets";
 import createPet from "@/services/pets/createPet";
 import updatePet from "@/services/pets/updatePet";
@@ -32,9 +31,8 @@ import updatePet from "@/services/pets/updatePet";
 import styles from "./PetForm.module.scss";
 
 export default function PetForm({ initialValues, onSuccessForm }: TProps) {
-  const { setOpenState } = useLoadingOverlay();
-  const { owners, ownersLoading } = useOwners();
-  const { veterinarians, veterinariansLoading } = useVeterinarians();
+  const { owners } = useOwners();
+  const { veterinarians } = useVeterinarians();
   const { reloadPets } = usePets();
   const [formToShow, setFormToShow] = useState<"owner" | "veterinarian" | null>(
     null
@@ -59,10 +57,6 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
       extra_data: initialValues?.extra_data || "",
     },
   });
-
-  useEffect(() => {
-    setOpenState(ownersLoading || veterinariansLoading);
-  }, [ownersLoading, veterinariansLoading, setOpenState]);
 
   useEffect(() => {
     if (initialValues) reset(initialValues);

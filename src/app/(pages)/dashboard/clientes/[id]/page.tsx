@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { Button, Grid2 as Grid, Typography } from "@mui/material";
 
 import Title from "@/components/Title";
 
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import useOwner from "@/hooks/useOwner";
 
 import mascotaIcon from "@/assets/images/mascota_icon.png";
@@ -15,14 +13,9 @@ import Image from "next/image";
 import CardInformation from "@/components/CardInformation";
 
 export default function ClienteDetailPage() {
-  const { setOpenState } = useLoadingOverlay();
   const { id } = useParams<{ id: string }>();
   const { owner, ownerLoading } = useOwner(+id);
   const router = useRouter();
-
-  useEffect(() => {
-    setOpenState(ownerLoading);
-  }, [setOpenState, ownerLoading]);
 
   if (!owner || ownerLoading) return;
   return (

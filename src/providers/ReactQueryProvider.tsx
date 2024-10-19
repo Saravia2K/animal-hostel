@@ -10,7 +10,7 @@ export default function ReactQueryProvider({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={qc}>
       {children}
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
@@ -25,21 +25,15 @@ import Modal from "@/components/Modal";
 import OwnerForm from "@/forms/OwnerForm";
 
 import useOwners from "@/hooks/useOwners";
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import deleteOwner from "@/services/owners/deleteOwner";
 
 import styles from "./page.module.scss";
 
 export default function ClientesPage() {
   const [openForm, setOpenForm] = useState(false);
-  const { setOpenState } = useLoadingOverlay();
-  const { owners, ownersLoading, reloadOwners } = useOwners();
+  const { owners, reloadOwners } = useOwners();
   const qc = useQueryClient();
   const router = useRouter();
-
-  useEffect(() => {
-    setOpenState(ownersLoading);
-  }, [setOpenState, ownersLoading]);
 
   const handleCloseFormToShow = () => {
     setOpenForm(false);

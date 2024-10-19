@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { useParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
@@ -8,13 +7,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import Title from "@/components/Title";
 import OwnerForm from "@/forms/OwnerForm";
 
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import useOwner from "@/hooks/useOwner";
 
 export default function EditarClientePage() {
   const { id } = useParams<{ id: string }>();
   const { owner, ownerLoading, reloadOwner } = useOwner(+id);
-  const { setOpenState } = useLoadingOverlay();
   const router = useRouter();
   const qc = useQueryClient();
 
@@ -26,10 +23,6 @@ export default function EditarClientePage() {
 
     router.push(`/dashboard/clientes/${id}`);
   };
-
-  useEffect(() => {
-    setOpenState(ownerLoading);
-  }, [setOpenState, ownerLoading]);
 
   if (!owner || ownerLoading) return <></>;
   return (
