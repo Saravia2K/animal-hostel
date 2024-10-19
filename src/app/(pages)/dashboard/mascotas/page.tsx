@@ -10,18 +10,15 @@ import SearchInput from "@/components/SearchInput";
 import PetCard from "@/components/PetCard";
 
 import usePets from "@/hooks/usePets";
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 
 export default function MascotasPage() {
-  const { setOpenState } = useLoadingOverlay();
   const { pets, petsLoading } = usePets();
   const [currentPets, setCurrentPets] = useState<TPet[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    setOpenState(petsLoading);
     if (!petsLoading && pets) setCurrentPets(pets);
-  }, [petsLoading, setOpenState, pets]);
+  }, [petsLoading, pets]);
 
   const handleSearch = (text: string) => {
     if (petsLoading || !pets) return;

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { Box, Button, Grid2 as Grid, Typography } from "@mui/material";
@@ -10,7 +9,6 @@ import { toast } from "react-toastify";
 
 import Title from "@/components/Title";
 
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import usePet from "@/hooks/usePet";
 import usePets from "@/hooks/usePets";
 import deletePet from "@/services/pets/deletePet";
@@ -19,14 +17,9 @@ import dogImage from "@/assets/images/pet_card_image.png";
 
 export default function MascotaDetailsPage() {
   const { id } = useParams<{ id: string }>();
-  const { setOpenState } = useLoadingOverlay();
-  const { pet, petLoading } = usePet(+id);
+  const { pet } = usePet(+id);
   const { reloadPets } = usePets();
   const router = useRouter();
-
-  useEffect(() => {
-    setOpenState(petLoading);
-  }, [petLoading, setOpenState]);
 
   const handleDeleteButton = () => {
     if (pet?.id_pet == undefined) return;

@@ -1,26 +1,19 @@
 "use client";
 
-import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { useQueryClient } from "@tanstack/react-query";
 
 import Title from "@/components/Title";
 
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import usePet from "@/hooks/usePet";
 import PetForm from "@/forms/PetForm";
 
 export default function EditarMascotaPage() {
   const { id } = useParams<{ id: string }>();
-  const { setOpenState } = useLoadingOverlay();
-  const { pet, petLoading } = usePet(+id);
+  const { pet } = usePet(+id);
   const router = useRouter();
   const qc = useQueryClient();
-
-  useEffect(() => {
-    setOpenState(petLoading);
-  }, [petLoading, setOpenState]);
 
   return (
     <>
