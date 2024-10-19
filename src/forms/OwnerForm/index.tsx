@@ -72,6 +72,8 @@ export default function OwnerForm({
     }
   };
 
+  const submitHandler = handleSubmit(handleFormSubmit);
+
   return (
     <Grid
       container
@@ -83,7 +85,6 @@ export default function OwnerForm({
         width: independent ? "100%" : "50dvw",
         backgroundColor: "#fff",
       }}
-      onSubmit={handleSubmit(handleFormSubmit)}
     >
       {!independent && (
         <Grid size={12}>
@@ -140,13 +141,13 @@ export default function OwnerForm({
       <Grid size={12}>
         <Button
           disabled={isSubmitting}
-          type="submit"
           variant="contained"
           sx={{
             backgroundColor: "var(--lightGreen)",
             width: "100%",
             padding: "15px 0",
           }}
+          onClick={submitHandler}
         >
           {isSubmitting ? (
             <CircularProgress sx={{ color: "var(--orange)" }} />

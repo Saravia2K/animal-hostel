@@ -72,14 +72,10 @@ export default function VeterinarianForm({
     }
   };
 
+  const submitHandler = handleSubmit(handleFormSubmit);
+
   return (
-    <Grid
-      container
-      component="form"
-      spacing={3}
-      sx={{ width: "50dvw" }}
-      onSubmit={handleSubmit(handleFormSubmit)}
-    >
+    <Grid container component="form" spacing={3} sx={{ width: "50dvw" }}>
       <Grid size={12}>
         <Title
           text={
@@ -133,6 +129,7 @@ export default function VeterinarianForm({
             width: "100%",
             padding: "15px 0",
           }}
+          onClick={submitHandler}
         >
           {isSubmitting ? (
             <CircularProgress sx={{ color: "var(--orange)" }} />
