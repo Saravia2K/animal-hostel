@@ -1,6 +1,6 @@
 import { TEntry } from "@/types";
 
-export default async function createEntry(data: TEntry) {
+export default async function createEntry(data: TData) {
   try {
     const response = await fetch("/api/entries", {
       method: "POST",
@@ -25,3 +25,8 @@ export default async function createEntry(data: TEntry) {
     return false;
   }
 }
+
+type TData = Omit<TEntry, "id_entry" | "pet" | "questionnaire"> & {
+  id_pet: number;
+  questionnaire: { id_question: number; answer: string }[];
+};

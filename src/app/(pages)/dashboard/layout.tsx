@@ -4,6 +4,9 @@ import { type PropsWithChildren } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
+import { Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 import styles from "./styles.module.scss";
 import logo from "@/assets/images/logo.png";
@@ -12,6 +15,7 @@ import huellaIcon from "@/assets/images/huella_icon.png";
 import clientesIcon from "@/assets/images/clientes_icon.png";
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
+  const router = useRouter();
   const pathname = usePathname();
 
   const handleLogout = async () => {
@@ -26,6 +30,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     }
   };
 
+  const isInFichaDeIngreso = pathname == "/dashboard/ficha-de-ingreso";
   return (
     <div className={styles["dashboard-layout"]}>
       <nav className={styles.nav}>
@@ -55,7 +60,27 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
           <Image src={logout} alt="Logout icon" onClick={handleLogout} />
         </div>
       </nav>
-      <main className={styles.main}>{children}</main>
+      <main className={styles.main}>
+        {children}
+        {!isInFichaDeIngreso && (
+          <Fab
+            color="secondary"
+            aria-label="Añadir entrada"
+            sx={{
+              position: "absolute",
+              bottom: 25,
+              right: 25,
+              backgroundColor: "var(--orange)",
+              "&:hover": {
+                backgroundColor: "var(--lightGreen)",
+              },
+            }}
+            onClick={() => router.push("/dashboard/ficha-de-ingreso")}
+          >
+            <AddIcon />
+          </Fab>
+        )}
+      </main>
     </div>
   );
 }

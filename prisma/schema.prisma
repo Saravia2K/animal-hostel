@@ -57,11 +57,13 @@ model Owner {
 }
 
 model Entry {
-  id_entry    Int       @id @default(autoincrement())
-  id_pet      Int
-  entry_date  DateTime
-  exit_date   DateTime?
-  annotations String?
+  id_entry        Int      @id @default(autoincrement())
+  id_pet          Int
+  entry_date      DateTime @db.Timestamp()
+  exit_date       DateTime @db.Timestamp()
+  annotations     String?
+  total           Decimal  @db.Decimal(5, 2)
+  advance_payment Decimal  @default(0) @db.Decimal(5, 2)
 
   pet Pet @relation(fields: [id_pet], references: [id_pet], onDelete: Cascade)
 

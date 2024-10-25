@@ -1,6 +1,6 @@
 import { TEntry } from "@/types";
 
-export default async function updateEntry(id: number, data: Partial<TEntry>) {
+export default async function updateEntry(id: number, data: TData) {
   try {
     const response = await fetch(`/api/entries/${id}`, {
       method: "PUT",
@@ -25,3 +25,8 @@ export default async function updateEntry(id: number, data: Partial<TEntry>) {
     return false;
   }
 }
+
+type TData = Omit<TEntry, "id_entry" | "pet" | "questionnaire"> & {
+  id_pet: number;
+  questionnaire: { id_question: number; answer: string }[];
+};

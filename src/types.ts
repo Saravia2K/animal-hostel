@@ -68,4 +68,6 @@ export type TEntry = {
   entry_date: string;
   exit_date: string;
   annotations: string;
+  total: number;
+  advance_payment: number;
 };

@@ -1,0 +1,17 @@
+.clock-container :global {
+  width: 100%;
+
+  .MuiInputBase-root {
+    border-radius: 12px;
+  }
+
+  .Mui-focused {
+    .MuiOutlinedInput-notchedOutline {
+      border-color: var(--orange) !important;
+    }
+  }
+
+  .MuiSvgIcon-root {
+    color: var(--orange);
+  }
+}

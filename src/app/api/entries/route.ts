@@ -6,7 +6,16 @@ import prisma from "../prisma";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { id_pet, entry_date, exit_date, annotations, services } = body;
+    const {
+      id_pet,
+      entry_date,
+      exit_date,
+      annotations,
+      services,
+      total,
+      advance_payment,
+      questionnaire,
+    } = body;
 
     if (!Array.isArray(services)) {
       return NextResponse.json(
@@ -24,10 +33,17 @@ export async function POST(req: Request) {
         services: {
           createMany: {
             data: services.map((id_service: number) => ({
-              id_service,
+              id_service: +id_service,
             })),
           },
         },
+        questionnaires: {
+          createMany: {
+            data: questionnaire,
+          },
+        },
+        total,
+        advance_payment,
       },
     });
 
