@@ -14,6 +14,7 @@ import useVeterinarians from "@/hooks/useVeterinarians";
 export default function VeterinarianForm({
   initialValues,
   onSuccessForm,
+  independent,
 }: TProps) {
   const { reloadVeterinarians } = useVeterinarians();
 
@@ -75,16 +76,28 @@ export default function VeterinarianForm({
   const submitHandler = handleSubmit(handleFormSubmit);
 
   return (
-    <Grid container component="form" spacing={3} sx={{ width: "50dvw" }}>
-      <Grid size={12}>
-        <Title
-          text={
-            initialValues?.id_veterinarian
-              ? "Actualizar veterinario"
-              : "Agregar veterinario"
-          }
-        />
-      </Grid>
+    <Grid
+      container
+      component="form"
+      spacing={3}
+      borderRadius={independent ? 3 : 0}
+      p={independent ? 7 : 0}
+      sx={{
+        width: independent ? "100%" : "50dvw",
+        backgroundColor: "#fff",
+      }}
+    >
+      {!independent && (
+        <Grid size={12}>
+          <Title
+            text={
+              initialValues?.id_veterinarian
+                ? "Actualizar veterinario"
+                : "Agregar veterinario"
+            }
+          />
+        </Grid>
+      )}
       <Grid size={6}>
         <Input
           required
@@ -116,6 +129,11 @@ export default function VeterinarianForm({
           placeholder="Escriba el teléfono aquí"
           type="tel"
           autoComplete="off"
+          slotProps={{
+            htmlInput: {
+              maxLength: 8,
+            },
+          }}
           {...register("cellphone")}
         />
       </Grid>
@@ -156,4 +174,5 @@ type TProps = {
     id_veterinarian?: number;
   } & Partial<TFormValues>;
   onSuccessForm?: () => void;
+  independent?: boolean;
 };

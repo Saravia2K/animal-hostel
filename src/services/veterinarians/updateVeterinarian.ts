@@ -1,9 +1,6 @@
 import { type TVeterinarian } from "@/types";
 
-export default async function updateVeterinarian(
-  id: number,
-  data: Partial<TVeterinarian>
-) {
+export default async function updateVeterinarian(id: number, data: TData) {
   try {
     const response = await fetch(`/api/veterinarians/${id}`, {
       method: "PUT",
@@ -28,3 +25,5 @@ export default async function updateVeterinarian(
     return false;
   }
 }
+
+type TData = Partial<Omit<TVeterinarian, "pets">>;

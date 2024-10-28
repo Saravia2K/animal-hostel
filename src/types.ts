@@ -20,6 +20,7 @@ export type TVeterinarian = {
   last_names: string;
   clinic_name: string;
   cellphone: string;
+  pets: TPet[];
 };
 
 export type TPet = {

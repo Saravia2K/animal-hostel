@@ -33,9 +33,11 @@ export async function GET(req: Request) {
 
   try {
     if (id_veterinarian) {
-      // Obtener un veterinario específico por ID
       const veterinarian = await prisma.veterinarian.findUnique({
-        where: { id_veterinarian: Number(id_veterinarian) },
+        where: { id_veterinarian: +id_veterinarian },
+        include: {
+          pets: true,
+        },
       });
       if (!veterinarian) {
         return NextResponse.json(

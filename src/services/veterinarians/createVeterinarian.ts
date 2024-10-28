@@ -1,7 +1,7 @@
 import { type TVeterinarian } from "@/types";
 
 export default async function createVeterinarian(
-  data: Omit<TVeterinarian, "id_veterinarian">
+  data: Omit<TVeterinarian, "id_veterinarian" | "pets">
 ) {
   try {
     const response = await fetch("/api/veterinarians", {

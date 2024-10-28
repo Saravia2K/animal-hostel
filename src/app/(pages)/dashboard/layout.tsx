@@ -88,4 +88,5 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
 const NAV_ITEMS = [
   { name: "Mascotas", path: "mascotas", icon: huellaIcon },
   { name: "Clientes", path: "clientes", icon: clientesIcon },
+  { name: "Encargados", path: "encargados", icon: clientesIcon },
 ];
