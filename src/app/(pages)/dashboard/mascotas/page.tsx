@@ -23,9 +23,16 @@ export default function MascotasPage() {
   const handleSearch = (text: string) => {
     if (petsLoading || !pets) return;
 
-    setCurrentPets(
-      text == "" ? pets : pets.filter((p) => p.name.includes(text))
-    );
+    const currentPets =
+      text == ""
+        ? pets
+        : pets.filter((p) =>
+            [p.name, p.owner.names, p.owner.last_names]
+              .join(" ")
+              .toLowerCase()
+              .includes(text.toLowerCase())
+          );
+    setCurrentPets(currentPets);
   };
 
   return (
@@ -58,6 +65,7 @@ export default function MascotasPage() {
           <Grid key={i} size={3}>
             <PetCard
               name={p.name}
+              owner_name={`${p.owner.names} ${p.owner.last_names}`}
               onClick={() => router.push(`/dashboard/mascotas/${p.id_pet}`)}
             />
           </Grid>

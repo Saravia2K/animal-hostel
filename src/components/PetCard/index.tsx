@@ -10,17 +10,25 @@ import {
 
 import dogImage from "@/assets/images/pet_card_image.png";
 
-export default function PetCard({ name, onClick }: PetCardProps) {
+export default function PetCard({ name, owner_name, onClick }: PetCardProps) {
   return (
     <Card sx={cardSX} onClick={onClick}>
       <CardContent>
         <Typography
-          variant="h6"
+          variant="h5"
           component="p"
           fontWeight="bold"
           fontFamily="inherit"
         >
           {name}
+        </Typography>
+        <Typography
+          variant="h6"
+          component="p"
+          fontFamily="inherit"
+          fontSize={13}
+        >
+          Dueño: {owner_name}
         </Typography>
       </CardContent>
       <Avatar src={dogImage.src} alt={name} sx={avatarSX} />
@@ -50,5 +58,6 @@ const avatarSX: SxProps = {
 
 type PetCardProps = {
   name: string;
+  owner_name: string;
   onClick?: () => void;
 };

@@ -72,8 +72,11 @@ export async function GET(req: Request) {
 
     // Obtener todos los pets, ordenados por ID
     const pets = await prisma.pet.findMany({
+      include: {
+        owner: true,
+      },
       orderBy: {
-        id_pet: "asc",
+        name: "asc",
       },
     });
     return NextResponse.json(pets);
