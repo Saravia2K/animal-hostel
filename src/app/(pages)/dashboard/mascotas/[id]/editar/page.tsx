@@ -30,10 +30,17 @@ export default function EditarMascotaPage() {
           coat_color: pet?.coat_color,
           extra_data: pet?.extra_data,
         }}
-        onSuccessForm={() => {
-          router.push("/dashboard/mascotas");
+        onSuccessForm={(newPet) => {
+          router.push(`/dashboard/mascotas/${id}`);
           qc.invalidateQueries({ queryKey: ["pets", pet?.id_pet] });
           qc.invalidateQueries({ queryKey: ["owners", pet?.owner.id_owner] });
+          qc.invalidateQueries({ queryKey: ["owners", newPet.id_owner] });
+          qc.invalidateQueries({
+            queryKey: ["veterinarians", pet?.veterinarian.id_veterinarian],
+          });
+          qc.invalidateQueries({
+            queryKey: ["veterinarians", newPet.id_veterinarian],
+          });
         }}
       />
     </>

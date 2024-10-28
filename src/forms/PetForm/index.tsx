@@ -88,7 +88,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
       if (success) {
         await reloadPets();
         qc.invalidateQueries({ queryKey: ["owners", data.id_owner] });
-        if (onSuccessForm) onSuccessForm();
+        if (onSuccessForm) onSuccessForm(data);
       }
 
       toast(message, {
@@ -283,5 +283,5 @@ type TProps = {
   initialValues?: {
     id_pet?: number;
   } & Partial<TFormValues>;
-  onSuccessForm?: () => void;
+  onSuccessForm?: (newPet: TFormValues) => void;
 };
