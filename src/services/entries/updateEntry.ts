@@ -26,7 +26,11 @@ export default async function updateEntry(id: number, data: TData) {
   }
 }
 
-type TData = Omit<TEntry, "id_entry" | "pet" | "questionnaire"> & {
+type TData = Omit<
+  TEntry,
+  "id_entry" | "pet" | "questionnaires" | "services"
+> & {
   id_pet: number;
   questionnaire: { id_question: number; answer: string }[];
+  services: number[];
 };

@@ -65,10 +65,11 @@ export type TQuestionnaire = {
 export type TEntry = {
   id_entry: number;
   pet: TPet;
-  questionnaire: Omit<TQuestionnaire, "entry">[];
+  questionnaires: Omit<TQuestionnaire, "entry">[];
   entry_date: string;
   exit_date: string;
   annotations: string;
   total: number;
   advance_payment: number;
+  services: TService[];
 };
