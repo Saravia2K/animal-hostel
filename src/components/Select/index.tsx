@@ -23,16 +23,18 @@ const Select = forwardRef(function Select(
 
   return (
     <Grid container columnSpacing={3} className={styles["select-container"]}>
-      <Grid size={12}>
-        <Box
-          fontWeight="bold"
-          color="var(--orange)"
-          fontSize={21}
-          marginBottom={2}
-        >
-          {label}
-        </Box>
-      </Grid>
+      {label && (
+        <Grid size={12}>
+          <Box
+            fontWeight="bold"
+            color="var(--orange)"
+            fontSize={21}
+            marginBottom={2}
+          >
+            {label}
+          </Box>
+        </Grid>
+      )}
       {onAddBtnClick && (
         <Grid
           size={1}
