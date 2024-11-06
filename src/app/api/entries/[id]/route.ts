@@ -1,54 +1,47 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../prisma";
 
-export async function PUT(req: Request, { params }: { params: TParams }) {
-  const id_entry = parseInt(params.id);
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id_entry = parseInt(params.id, 10);
+
+  if (isNaN(id_entry)) {
+    return NextResponse.json(
+      {
+        message:
+          "El ID de la entrada es inválido o no se proporcionó correctamente",
+      },
+      { status: 400 }
+    );
+  }
 
   try {
-    const body = await req.json();
-    const { id_pet, entry_date, exit_date, annotations, services } = body;
+    const { id_pet, entry_date, exit_date, annotations, services } =
+      await req.json();
 
-    if (!Array.isArray(services)) {
-      return NextResponse.json(
-        { message: "El formato de los servicios es incorrecto" },
-        { status: 400 }
-      );
-    }
-
-    // Usamos una transacción para asegurarnos de que todo se actualice correctamente
-    const updatedEntry = await prisma.$transaction(async (prisma) => {
-      // Primero, actualizamos la entrada (Entry)
-      const entry = await prisma.entry.update({
-        where: { id_entry },
-        data: {
-          id_pet,
-          entry_date,
-          exit_date,
-          annotations,
+    // Actualizar la entrada con los nuevos datos
+    const updatedEntry = await prisma.entry.update({
+      where: { id_entry },
+      data: {
+        id_pet,
+        entry_date,
+        exit_date,
+        annotations,
+        services: {
+          set: services.map((id_service: number) => ({
+            id_service,
+          })),
         },
-      });
-
-      // Luego, eliminamos las relaciones actuales de servicios
-      await prisma.entriesServices.deleteMany({
-        where: { id_entry },
-      });
-
-      // Creamos las nuevas relaciones de servicios
-      await prisma.entriesServices.createMany({
-        data: services.map((id_service: number) => ({
-          id_entry,
-          id_service,
-        })),
-      });
-
-      return entry;
+      },
     });
 
-    return NextResponse.json(updatedEntry);
+    return NextResponse.json(updatedEntry, { status: 200 });
   } catch (error) {
-    console.error("Error updating entry with services:", error);
+    console.error("Error al actualizar la entrada:", error);
     return NextResponse.json(
-      { message: "Error al actualizar la entrada y los servicios" },
+      { message: "Error al actualizar la entrada" },
       { status: 500 }
     );
   }

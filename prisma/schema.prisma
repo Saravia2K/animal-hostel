@@ -68,7 +68,7 @@ model Entry {
   pet Pet @relation(fields: [id_pet], references: [id_pet], onDelete: Cascade)
 
   questionnaires Questionnaire[]
-  services       EntriesServices[]
+  services       Service[]
 
   @@index([id_pet], name: "idx_id_pet")
 }
@@ -78,17 +78,7 @@ model Service {
   name        String
   description String?
 
-  entries EntriesServices[]
-}
-
-model EntriesServices {
-  id_entry_service Int     @id @default(autoincrement())
-  id_entry         Int
-  id_service       Int
-  entry            Entry   @relation(fields: [id_entry], references: [id_entry], onDelete: Cascade)
-  service          Service @relation(fields: [id_service], references: [id_service], onDelete: Cascade)
-
-  @@unique([id_entry, id_service])
+  entries Entry[]
 }
 
 model Questionnaire {

@@ -31,11 +31,9 @@ export async function POST(req: Request) {
         exit_date,
         annotations,
         services: {
-          createMany: {
-            data: services.map((id_service: number) => ({
-              id_service: +id_service,
-            })),
-          },
+          connect: services.map((id_service: number) => ({
+            id_service: +id_service,
+          })),
         },
         questionnaires: {
           createMany: {
@@ -74,10 +72,16 @@ export async function GET(req: Request) {
               question: true,
               answer: true,
             },
+            orderBy: {
+              id_question: "asc",
+            },
           },
           entry_date: true,
           exit_date: true,
           annotations: true,
+          services: true,
+          total: true,
+          advance_payment: true,
         },
       });
 
@@ -104,11 +108,15 @@ export async function GET(req: Request) {
         entry_date: true,
         exit_date: true,
         annotations: true,
+        services: true,
+        total: true,
+        advance_payment: true,
       },
       orderBy: {
         id_entry: "asc",
       },
     });
+
     return NextResponse.json(entries);
   } catch (error) {
     console.error("Error fetching entries:", error);
