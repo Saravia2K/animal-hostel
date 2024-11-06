@@ -1,0 +1,10 @@
+.table :global {
+  .MuiTableCell-head {
+    color: var(--darkGreen);
+    font-weight: bold;
+  }
+
+  .MuiTableCell-root {
+    border-color: var(--darkGreen);
+  }
+}
