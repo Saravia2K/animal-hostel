@@ -13,10 +13,10 @@ const Checkbox = forwardRef(function Checkbox(
   props: TProps,
   ref: Ref<HTMLInputElement>
 ) {
-  const { label, ...checkboxProps } = props;
+  const { label, color, ...checkboxProps } = props;
   return (
     <FormControlLabel
-      sx={{ color: "var(--orange)" }}
+      sx={{ color: color || "var(--orange)" }}
       slotProps={{
         typography: {
           fontWeight: "bold",
@@ -27,8 +27,12 @@ const Checkbox = forwardRef(function Checkbox(
       control={
         <MUICheckbox
           inputRef={ref}
-          icon={<CheckBoxOutlineBlankIcon sx={{ color: "var(--orange)" }} />}
-          checkedIcon={<CheckedBox sx={{ color: "var(--orange)" }} />}
+          icon={
+            <CheckBoxOutlineBlankIcon
+              sx={{ color: color || "var(--orange)" }}
+            />
+          }
+          checkedIcon={<CheckedBox sx={{ color: color || "var(--orange)" }} />}
           {...checkboxProps}
         />
       }
@@ -39,4 +43,7 @@ const Checkbox = forwardRef(function Checkbox(
 
 export default Checkbox;
 
-type TProps = Omit<CheckboxProps, "icon" | "checkedIcon"> & { label: string };
+type TProps = Omit<CheckboxProps, "icon" | "checkedIcon" | "color"> & {
+  label: string;
+  color?: string;
+};
