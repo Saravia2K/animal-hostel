@@ -12,6 +12,8 @@ import {
 import { useForm, type SubmitHandler, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import Input from "@/components/Input";
 import Calendar from "@/components/Calendar";
@@ -26,20 +28,49 @@ import useServices from "@/hooks/useServices";
 import createEntry from "@/services/entries/createEntry";
 import updateEntry from "@/services/entries/updateEntry";
 
+const REQUIRED_MESSAGE = "Este campo es requerido";
+
 export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
   const { pets } = usePets();
   const { questions } = useQuestions();
   const { services } = useServices();
 
+  const formValidationSchema = yup.object({
+    entry_date: yup.string().required(REQUIRED_MESSAGE),
+    entry_time: yup.string().required(REQUIRED_MESSAGE),
+    exit_date: yup.string().required(REQUIRED_MESSAGE),
+    exit_time: yup.string().required(REQUIRED_MESSAGE),
+    id_pet: yup.number().required(REQUIRED_MESSAGE),
+    answers: yup
+      .array()
+      .of(yup.string().required("Respuesta obligatoria"))
+      .length(questions?.length || 0, "Debes responder todas las preguntas")
+      .required(REQUIRED_MESSAGE),
+    observations: yup.string().required(REQUIRED_MESSAGE),
+    services: yup
+      .array()
+      .of(yup.number().required())
+      .min(1, "Debes seleccionar al menos 1 servicio")
+      .required(REQUIRED_MESSAGE),
+    total: yup
+      .number()
+      .min(1, "Selecciona un valor mayor a 0")
+      .required(REQUIRED_MESSAGE),
+    advance_payment: yup
+      .number()
+      .min(1, "Selecciona un valor mayor a 0")
+      .required(REQUIRED_MESSAGE),
+  });
   const {
     register,
     control,
     handleSubmit,
-    setError,
     clearErrors,
     formState: { isSubmitting, errors },
     reset,
     watch,
+    setValue,
+    getValues,
   } = useForm<TFormValues>({
     defaultValues: {
       entry_date: initialValues?.entry_date || new Date().toDateString(),
@@ -53,6 +84,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
       total: initialValues?.total || 0,
       advance_payment: initialValues?.advance_payment || 0,
     },
+    resolver: yupResolver(formValidationSchema),
   });
 
   useEffect(() => {
@@ -68,21 +100,12 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
 
   const handleFormSubmit: SubmitHandler<TFormValues> = async (data) => {
     try {
-      const services = data.services.filter(Boolean);
-      if (services.length == 0) {
-        setError("services", {
-          message: "Debes elegir al menos un servicio",
-        });
-        return;
-      }
-      clearErrors("services");
-
       const formattedData = {
         id_pet: data.id_pet,
         entry_date: combineDateAndTime(data.entry_date, data.entry_time),
         exit_date: combineDateAndTime(data.exit_date, data.exit_time),
         annotations: data.observations,
-        services,
+        services: data.services,
         questionnaire:
           questions?.map((q, index) => ({
             id_question: q.id_question,
@@ -111,8 +134,8 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
         success ? successKeyword : notSuccessKeyword
       );
 
-      if (success) {
-        if (onSuccessForm) onSuccessForm();
+      if (success && onSuccessForm) {
+        onSuccessForm();
       }
 
       toast(message, {
@@ -128,7 +151,29 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
     }
   };
 
+  const handleCheckboxChange = (checked: boolean, id: number) => {
+    const servicesList = [...getValues("services")];
+
+    if (checked) {
+      servicesList.push(id);
+    }
+    if (!checked) {
+      const idx = servicesList.indexOf(id);
+      servicesList.splice(idx, 1);
+    }
+
+    setValue("services", servicesList);
+
+    const servicesErrors = errors.services?.length || 0;
+    console.log(servicesErrors);
+    if (servicesErrors > 0) clearErrors("services");
+  };
+
   const inDate = watch("entry_date");
+  const total = watch("total");
+  const formServices = watch("services");
+
+  if (!pets || !services || !questions) return <></>;
   return (
     <Grid
       container
@@ -233,7 +278,8 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
               key={i}
               value={service.id_service}
               label={service.name}
-              {...register(`services.${i}`)}
+              checked={formServices.includes(service.id_service)}
+              onChange={(_, c) => handleCheckboxChange(c, service.id_service)}
             />
           ))}
           {errors.services && (
@@ -296,11 +342,12 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
       <Grid size={6}>
         <Input
           {...register("advance_payment")}
-          label="Avance del pago"
+          label="Anticipo"
           type="number"
           slotProps={{
             htmlInput: {
               min: 0,
+              max: total,
             },
           }}
         />
