@@ -1,15 +1,17 @@
 "use client";
 
-import CheckIcon from "@mui/icons-material/Check";
-import Title from "@/components/Title";
-import useEntriesByDate from "@/hooks/useEntriesByDate";
+import { type MouseEvent, useState } from "react";
 import { Box, Button, Grid2 as Grid } from "@mui/material";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
-import updateEntry from "@/services/entries/updateEntry";
-import useLoadingOverlay from "@/hooks/useLoadingOverlay";
+import CheckIcon from "@mui/icons-material/Check";
+
+import Title from "@/components/Title";
 import EntryDetailsModal from "@/components/EntryDetailsModal";
-import { MouseEvent, useState } from "react";
+
+import useEntriesByDate from "@/hooks/useEntriesByDate";
+import useLoadingOverlay from "@/hooks/useLoadingOverlay";
+import updateEntry from "@/services/entries/updateEntry";
 
 export default function RecordatoriosPage() {
   const [detailsId, setDetailsId] = useState<number>();
