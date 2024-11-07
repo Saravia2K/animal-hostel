@@ -15,6 +15,7 @@ import huellaIcon from "@/assets/images/huella_icon.png";
 import clientesIcon from "@/assets/images/clientes_icon.png";
 import encargadoIcon from "@/assets/images/encargado_icon.png";
 import reportesIcon from "@/assets/images/reportes_icon.png";
+import serviciosIcon from "@/assets/images/servicios_icon.png";
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   const router = useRouter();
@@ -93,4 +94,5 @@ const NAV_ITEMS = [
   { name: "Encargados", path: "encargados", icon: encargadoIcon },
   { name: "Reportes", path: "reportes", icon: reportesIcon },
   { name: "Recordatorios", path: "recordatorios", icon: reportesIcon },
+  { name: "Servicios", path: "servicios", icon: serviciosIcon },
 ];
