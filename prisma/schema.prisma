@@ -91,6 +91,7 @@ model Questionnaire {
   entry    Entry    @relation(fields: [id_entry], references: [id_entry], onDelete: Cascade)
   question Question @relation(fields: [id_question], references: [id_question], onDelete: Cascade)
 
+  @@unique([id_entry, id_question])
   @@index([id_entry], name: "idx_id_entry")
   @@index([id_question], name: "idx_id_question")
 }

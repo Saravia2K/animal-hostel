@@ -22,29 +22,38 @@ export async function PUT(
     const { services, questionnaires, ...data } =
       (await req.json()) as TUpdateEntryData;
 
-    // Actualizar la entrada con los nuevos datos
-    const updatedEntry = await prisma.entry.update({
-      where: { id_entry },
-      data: {
-        ...data,
-        services: {
-          set:
-            services?.map((id_service: number) => ({
-              id_service,
-            })) ?? undefined,
+    const [updatedEntry] = await prisma.$transaction([
+      prisma.entry.update({
+        where: { id_entry },
+        data: {
+          ...data,
+          services: {
+            set:
+              services?.map((id_service: number) => ({
+                id_service,
+              })) ?? undefined,
+          },
         },
-        questionnaires: {
-          updateMany: questionnaires?.map((q) => ({
-            where: {
+      }),
+      ...(questionnaires?.map((q) =>
+        prisma.questionnaire.upsert({
+          where: {
+            id_entry_id_question: {
+              id_entry,
               id_question: q.id_question,
             },
-            data: {
-              answer: q.answer,
-            },
-          })),
-        },
-      },
-    });
+          },
+          update: {
+            answer: q.answer,
+          },
+          create: {
+            id_entry,
+            id_question: q.id_question,
+            answer: q.answer,
+          },
+        })
+      ) ?? []),
+    ]);
 
     return NextResponse.json(updatedEntry, { status: 200 });
   } catch (error) {
