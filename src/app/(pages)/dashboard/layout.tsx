@@ -5,8 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
-import { Fab } from "@mui/material";
+import { Badge, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+
+import useEntriesByDate from "@/hooks/useEntriesByDate";
 
 import styles from "./styles.module.scss";
 import logo from "@/assets/images/logo.png";
@@ -20,6 +22,7 @@ import serviciosIcon from "@/assets/images/servicios_icon.png";
 import preguntasIcon from "@/assets/images/preguntas_icon.png";
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
+  const { entries } = useEntriesByDate();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -35,6 +38,21 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     }
   };
 
+  if (!entries) return;
+  const NAV_ITEMS = [
+    { name: "Mascotas", path: "mascotas", icon: huellaIcon },
+    { name: "Clientes", path: "clientes", icon: clientesIcon },
+    { name: "Encargados", path: "encargados", icon: encargadoIcon },
+    { name: "Reportes", path: "reportes", icon: reportesIcon },
+    {
+      name: "Recordatorios",
+      path: "recordatorios",
+      icon: recordatoriosIcon,
+      badge: entries.filter((e) => !e.notification_seen).length,
+    },
+    { name: "Servicios", path: "servicios", icon: serviciosIcon },
+    { name: "Preguntas", path: "preguntas", icon: preguntasIcon },
+  ];
   const isInFichaDeIngreso = pathname == "/dashboard/ficha-de-ingreso";
   return (
     <div className={styles["dashboard-layout"]}>
@@ -45,7 +63,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
           </Link>
         </div>
         <ul className={styles.links}>
-          {NAV_ITEMS.map(({ name, path, icon }, i) => {
+          {NAV_ITEMS.map(({ name, path, icon, badge }, i) => {
             const href = `/dashboard/${path}`;
             const samePage = href == pathname;
 
@@ -55,7 +73,9 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
                   href={href}
                   onClick={(e) => samePage && e.preventDefault()}
                 >
-                  <Image src={icon} alt={name} />
+                  <Badge badgeContent={badge} color="secondary">
+                    <Image src={icon} alt={name} />
+                  </Badge>
                 </Link>
               </li>
             );
@@ -89,13 +109,3 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     </div>
   );
 }
-
-const NAV_ITEMS = [
-  { name: "Mascotas", path: "mascotas", icon: huellaIcon },
-  { name: "Clientes", path: "clientes", icon: clientesIcon },
-  { name: "Encargados", path: "encargados", icon: encargadoIcon },
-  { name: "Reportes", path: "reportes", icon: reportesIcon },
-  { name: "Recordatorios", path: "recordatorios", icon: recordatoriosIcon },
-  { name: "Servicios", path: "servicios", icon: serviciosIcon },
-  { name: "Preguntas", path: "preguntas", icon: preguntasIcon },
-];
