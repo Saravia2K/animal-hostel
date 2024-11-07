@@ -8,6 +8,7 @@ import ToastifyProvider from "@/providers/ToastifyProvider";
 
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-multi-carousel/lib/styles.css";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 

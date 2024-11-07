@@ -29,12 +29,16 @@ export async function GET(
       },
       select: {
         id_entry: true,
-        pet: true,
+        pet: {
+          include: {
+            owner: true,
+          },
+        },
         entry_date: true,
         services: true,
         notification_seen: true,
       },
-      orderBy: [{ notification_seen: "asc" }, { id_entry: "asc" }],
+      orderBy: [{ notification_seen: "asc" }, { entry_date: "asc" }],
     });
 
     return NextResponse.json(entries, { status: 200 });
