@@ -13,14 +13,28 @@
     display: grid;
     grid-template-rows: 1fr 75% 1fr;
     padding: 25px 0px;
+    max-height: 100dvh;
+    min-height: 100dvh;
+    height: 100dvh;
 
     .links {
+      overflow-y: auto;
+      height: 100%;
       padding: 10% 0px;
       list-style: none;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 50px;
+
+      &::-webkit-scrollbar {
+        width: 7.5px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 25px;
+        background: var(--orange);
+      }
 
       .link-item {
         width: 25%;
@@ -30,6 +44,7 @@
     .logout-container {
       position: relative;
       cursor: pointer;
+      background-color: #fff;
 
       img {
         position: relative;
