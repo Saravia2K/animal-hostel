@@ -57,13 +57,14 @@ model Owner {
 }
 
 model Entry {
-  id_entry        Int      @id @default(autoincrement())
-  id_pet          Int
-  entry_date      DateTime @db.Timestamp()
-  exit_date       DateTime @db.Timestamp()
-  annotations     String?
-  total           Decimal  @db.Decimal(5, 2)
-  advance_payment Decimal  @default(0) @db.Decimal(5, 2)
+  id_entry          Int      @id @default(autoincrement())
+  id_pet            Int
+  entry_date        DateTime @db.Timestamp()
+  exit_date         DateTime @db.Timestamp()
+  annotations       String?
+  total             Decimal  @db.Decimal(5, 2)
+  advance_payment   Decimal  @default(0) @db.Decimal(5, 2)
+  notification_seen Boolean  @default(false)
 
   pet Pet @relation(fields: [id_pet], references: [id_pet], onDelete: Cascade)
 
@@ -98,14 +99,6 @@ model Question {
   id_question    Int             @id @default(autoincrement())
   text           String
   questionnaires Questionnaire[]
-}
-
-model Notification {
-  id_notification Int     @id @default(autoincrement())
-  title           String  @db.VarChar(255)
-  description     String
-  seen            Boolean @default(false)
-  url             String? @db.VarChar(100)
 }
 
 enum Sex {
