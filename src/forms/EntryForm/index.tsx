@@ -260,7 +260,10 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
           render={({ field }) => (
             <Select
               label="Mascota a ingresar"
-              items={pets?.map((p) => ({ label: p.name, value: p.id_pet }))}
+              items={pets?.map((p) => ({
+                label: `${p.name} - ${p.owner.names} ${p.owner.last_names}`,
+                value: p.id_pet,
+              }))}
               {...field}
               error={!!errors.id_pet}
               helperText={errors.id_pet?.message}
