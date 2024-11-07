@@ -45,7 +45,7 @@ export async function GET(
   } catch (error) {
     console.error("Error al obtener las entradas:", error);
     return NextResponse.json(
-      { message: "Error al obtener las entradas" },
+      { message: `Error al obtener las entradas: ${error}` },
       { status: 500 }
     );
   }
