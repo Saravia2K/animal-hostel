@@ -28,7 +28,7 @@ export default function EditarClientePage() {
   if (!veterinarian || veterinarianLoading) return <></>;
   return (
     <>
-      <Title text="Editar cliente" />
+      <Title text="Editar encargado" />
       <VeterinarianForm
         independent
         initialValues={veterinarian}
