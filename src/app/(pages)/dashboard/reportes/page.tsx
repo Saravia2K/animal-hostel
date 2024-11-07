@@ -9,10 +9,9 @@ import { useRouter } from "next-nprogress-bar";
 
 import Table from "@/components/Table";
 import Title from "@/components/Title";
-import Modal from "@/components/Modal";
 import Select from "@/components/Select";
 import Checkbox from "@/components/Checkbox";
-import EntryDetailsModel from "./EntryDetailsModel";
+import EntryDetailsModal from "@/components/EntryDetailsModal";
 
 import deleteEntry from "@/services/entries/deleteEntry";
 import useEntries from "@/hooks/useEntries";
@@ -213,9 +212,11 @@ export default function ReportesPage() {
         />
       </Grid>
       {entryDetails != undefined && (
-        <Modal open={true} onClose={() => setEntryDetails(undefined)}>
-          <EntryDetailsModel id={entryDetails.id} />
-        </Modal>
+        <EntryDetailsModal
+          open={true}
+          onClose={() => setEntryDetails(undefined)}
+          id={entryDetails.id}
+        />
       )}
     </Grid>
   );
