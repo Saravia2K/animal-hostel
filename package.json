@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "start:dev": "next dev",
-    "start:db": "docker compose up --force-recreate -d"
+    "start:db": "docker compose up --force-recreate -d",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@emotion/react": "~11.13.3",
