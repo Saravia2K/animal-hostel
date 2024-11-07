@@ -92,4 +92,5 @@ const NAV_ITEMS = [
   { name: "Clientes", path: "clientes", icon: clientesIcon },
   { name: "Encargados", path: "encargados", icon: encargadoIcon },
   { name: "Reportes", path: "reportes", icon: reportesIcon },
+  { name: "Recordatorios", path: "recordatorios", icon: reportesIcon },
 ];

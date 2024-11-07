@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../prisma";
+import type { TUpdateEntryData } from "@/services/entries/updateEntry";
 
 export async function PUT(
   req: NextRequest,
@@ -18,20 +19,28 @@ export async function PUT(
   }
 
   try {
-    const { id_pet, entry_date, exit_date, annotations, services } =
-      await req.json();
+    const { services, questionnaires, ...data } =
+      (await req.json()) as TUpdateEntryData;
 
     // Actualizar la entrada con los nuevos datos
     const updatedEntry = await prisma.entry.update({
       where: { id_entry },
       data: {
-        id_pet,
-        entry_date,
-        exit_date,
-        annotations,
+        ...data,
         services: {
-          set: services.map((id_service: number) => ({
-            id_service,
+          set:
+            services?.map((id_service: number) => ({
+              id_service,
+            })) ?? undefined,
+        },
+        questionnaires: {
+          updateMany: questionnaires?.map((q) => ({
+            where: {
+              id_question: q.id_question,
+            },
+            data: {
+              answer: q.answer,
+            },
           })),
         },
       },
