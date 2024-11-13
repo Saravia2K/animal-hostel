@@ -106,7 +106,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
         exit_date: combineDateAndTime(data.exit_date, data.exit_time),
         annotations: data.observations,
         services: data.services,
-        questionnaires:
+        questionnaire:
           questions?.map((q, index) => ({
             id_question: q.id_question,
             answer: data.answers[index] || "",

@@ -31,6 +31,6 @@ type TData = Omit<
   "id_entry" | "pet" | "questionnaires" | "services"
 > & {
   id_pet: number;
-  questionnaires: { id_question: number; answer: string }[];
+  questionnaire: { id_question: number; answer: string }[];
   services: number[];
 };
