@@ -15,12 +15,27 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import styles from "./Table.module.scss";
 
-export default function Table<
-  T extends Record<string, TTableAcceptableValues>
->({ headers, actions, data, ignoreIdColumn = true }: TProps<T>) {
+export default function Table<T extends Record<string, TTableAcceptableValues>>(
+  props: TProps<T>
+) {
+  const {
+    headers,
+    actions,
+    data,
+    ignoreIdColumn = true,
+    forceHideAction,
+  } = props;
+
   const showActionsCell =
     actions != undefined && Object.values(actions).some((a) => a != undefined);
   const headersId = headers.map((h) => h.id);
+
+  const hideAction = (row: T, action: "watch" | "edit" | "delete") => {
+    return forceHideAction && forceHideAction[action]
+      ? forceHideAction[action](row)
+      : false;
+  };
+
   return (
     <TableContainer className={styles.table}>
       <MUITable>
@@ -48,7 +63,7 @@ export default function Table<
                 .filter(Boolean)}
               {showActionsCell && (
                 <TableCell>
-                  {actions.watch && (
+                  {actions.watch && !hideAction(d as T, "watch") && (
                     <IconButton
                       onClick={() => actions.watch && actions.watch(d as T)}
                     >
@@ -56,7 +71,7 @@ export default function Table<
                     </IconButton>
                   )}
 
-                  {actions.edit && (
+                  {actions.edit && !hideAction(d as T, "edit") && (
                     <IconButton
                       onClick={() => actions.edit && actions.edit(d as T)}
                     >
@@ -64,7 +79,7 @@ export default function Table<
                     </IconButton>
                   )}
 
-                  {actions.delete && (
+                  {actions.delete && !hideAction(d as T, "delete") && (
                     <IconButton
                       onClick={() => actions.delete && actions.delete(d as T)}
                     >
@@ -101,4 +116,9 @@ type TProps<T extends Record<string, TTableAcceptableValues>> = {
     delete?: (row: T) => void;
   };
   ignoreIdColumn?: boolean;
+  forceHideAction?: {
+    watch?: (row: T) => boolean;
+    edit?: (row: T) => boolean;
+    delete?: (row: T) => boolean;
+  };
 };

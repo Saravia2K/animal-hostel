@@ -209,6 +209,9 @@ export default function ReportesPage() {
             delete: (row) => handleDeleteBtn(row.id),
             edit: (row) => router.push(`/dashboard/reportes/${row.id}/editar`),
           }}
+          forceHideAction={{
+            edit: (row) => dayjs(row.fecha_ingreso).isBefore(dayjs()),
+          }}
         />
       </Grid>
       {entryDetails != undefined && (
