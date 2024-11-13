@@ -24,6 +24,7 @@ export default function Table<T extends Record<string, TTableAcceptableValues>>(
     data,
     ignoreIdColumn = true,
     forceHideAction,
+    extraActions,
   } = props;
 
   const showActionsCell =
@@ -86,6 +87,17 @@ export default function Table<T extends Record<string, TTableAcceptableValues>>(
                       <DeleteIcon color="error" />
                     </IconButton>
                   )}
+
+                  {extraActions &&
+                    extraActions
+                      .map(({ icon: Icon, onClick, forceHideAction }, i) =>
+                        forceHideAction && !forceHideAction(d as T) ? null : (
+                          <IconButton key={i} onClick={() => onClick(d as T)}>
+                            {Icon}
+                          </IconButton>
+                        )
+                      )
+                      .filter(Boolean)}
                 </TableCell>
               )}
             </TableRow>
@@ -98,16 +110,19 @@ export default function Table<T extends Record<string, TTableAcceptableValues>>(
 
 type TTableAcceptableValues = string | number | string[] | number[];
 
-type THeader<T extends Record<string, TTableAcceptableValues>> = {
+type TTableAcceptableValuesObj = Record<string, TTableAcceptableValues>;
+
+type THeader<T extends TTableAcceptableValuesObj> = {
   id: keyof T;
   label: string;
+  render?: boolean;
 };
 
-type TData<T extends Record<string, TTableAcceptableValues>> = {
+type TData<T extends TTableAcceptableValuesObj> = {
   [K in keyof T]: TTableAcceptableValues;
 }[];
 
-type TProps<T extends Record<string, TTableAcceptableValues>> = {
+type TProps<T extends TTableAcceptableValuesObj> = {
   headers: THeader<T>[];
   data: TData<T>;
   actions?: {
@@ -121,4 +136,11 @@ type TProps<T extends Record<string, TTableAcceptableValues>> = {
     edit?: (row: T) => boolean;
     delete?: (row: T) => boolean;
   };
+  extraActions?: TExtraAction<T>[];
+};
+
+type TExtraAction<T extends TTableAcceptableValuesObj> = {
+  icon: JSX.Element;
+  onClick: (row: T) => void;
+  forceHideAction?: (row: T) => boolean;
 };
