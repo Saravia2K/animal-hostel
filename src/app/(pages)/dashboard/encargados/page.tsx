@@ -24,9 +24,10 @@ import Title from "@/components/Title";
 import Modal from "@/components/Modal";
 import VeterinarianForm from "@/forms/VeterinarianForm";
 
-import styles from "./page.module.scss";
 import useVeterinarians from "@/hooks/useVeterinarians";
 import deleteVeterinarian from "@/services/veterinarians/deleteVeterinarian";
+
+import styles from "./page.module.scss";
 
 export default function ClientesPage() {
   const [openForm, setOpenForm] = useState(false);

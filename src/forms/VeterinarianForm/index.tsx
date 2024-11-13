@@ -41,8 +41,8 @@ export default function VeterinarianForm({
       }
 
       const baseMessage = success
-        ? "Veterinario {keyword} con éxito"
-        : "Error al {keyword} un veterinario";
+        ? "Encargado {keyword} con éxito"
+        : "Error al {keyword} un encargado";
       const successKeyword = initialValues?.id_veterinarian
         ? "actualizado"
         : "creado";
@@ -67,7 +67,7 @@ export default function VeterinarianForm({
       if (process.env.NODE_ENV === "development") console.error(error);
 
       const verb = initialValues?.id_veterinarian ? "actualizar" : "crear";
-      toast(`Error al ${verb} un veterinario`, {
+      toast(`Error al ${verb} un encargado`, {
         type: "error",
       });
     }
@@ -92,8 +92,8 @@ export default function VeterinarianForm({
           <Title
             text={
               initialValues?.id_veterinarian
-                ? "Actualizar veterinario"
-                : "Agregar veterinario"
+                ? "Actualizar encargado"
+                : "Agregar encargado"
             }
           />
         </Grid>

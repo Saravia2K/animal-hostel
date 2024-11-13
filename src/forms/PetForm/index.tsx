@@ -210,7 +210,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           rules={{ required: "Este campo es requerido" }}
           render={({ field }) => (
             <Select
-              label="Veterinario"
+              label="Encargado"
               onAddBtnClick={() => setFormToShow("veterinarian")}
               items={veterinarians?.map((v) => ({
                 label: `${v.names} ${v.last_names}`,
