@@ -42,12 +42,14 @@ export default function MascotaDetailsPage() {
           Swal.showValidationMessage("Error al intentar eliminar la mascota");
         }
       },
-    }).then(async () => {
-      await reloadPets();
-      toast("Mascota eliminada exitosamente", {
-        type: "info",
-      });
-      router.push("/dashboard/mascotas");
+    }).then(async (v) => {
+      if (v.isConfirmed) {
+        await reloadPets();
+        toast("Mascota eliminada exitosamente", {
+          type: "info",
+        });
+        router.push("/dashboard/mascotas");
+      }
     });
   };
 
