@@ -6,12 +6,14 @@ import { Grid2 as Grid, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
+import PaymentIcon from "@mui/icons-material/Payment";
 
 import Table from "@/components/Table";
 import Title from "@/components/Title";
 import Select from "@/components/Select";
 import Checkbox from "@/components/Checkbox";
 import EntryDetailsModal from "@/components/EntryDetailsModal";
+import PaymentModal from "./PaymentModal";
 
 import deleteEntry from "@/services/entries/deleteEntry";
 import useEntries from "@/hooks/useEntries";
@@ -20,13 +22,14 @@ import { COLORS } from "@/consts";
 import type { TEntry } from "@/types";
 
 export default function ReportesPage() {
-  const [entryDetails, setEntryDetails] = useState<TEntryTableFields>();
+  const [entryDetails, setEntryDetails] = useState<TEntryTableField>();
   const [currentEntries, setCurrentEntries] = useState<TEntry[]>([]);
   const [filters, setFilters] = useState({
     month: 0,
     year: years[0],
     services: [] as number[],
   });
+  const [entryToPay, setEntryToPay] = useState<TEntryTableField>();
   const { entries, reloadEntries } = useEntries();
   const { services } = useServices();
   const router = useRouter();
@@ -178,7 +181,7 @@ export default function ReportesPage() {
         </Grid>
       </Grid>
       <Grid size={12} borderRadius={2} p={3} sx={{ backgroundColor: "#fff" }}>
-        <Table<TEntryTableFields>
+        <Table<TEntryTableField>
           headers={[
             { id: "id", label: "ID" },
             { id: "fecha_ingreso", label: "Fecha de ingreso" },
@@ -187,6 +190,7 @@ export default function ReportesPage() {
             { id: "hora_salida", label: "Hora de salida" },
             { id: "pet", label: "Mascota" },
             { id: "services", label: "Servicios" },
+            { id: "total", label: "Total" },
             { id: "remaining", label: "Monto restante" },
           ]}
           data={currentEntries.map((e) => {
@@ -202,6 +206,7 @@ export default function ReportesPage() {
               pet: e.pet.name,
               services: e.services.map((s) => s.name).join(", "),
               remaining: `$${e.total - e.advance_payment}`,
+              total: `$${e.total}`,
             };
           })}
           actions={{
@@ -212,6 +217,13 @@ export default function ReportesPage() {
           forceHideAction={{
             edit: (row) => dayjs(row.fecha_ingreso).isBefore(dayjs()),
           }}
+          extraActions={[
+            {
+              icon: <PaymentIcon sx={{ color: "var(--lightGreen)" }} />,
+              onClick: (row) => setEntryToPay(row),
+              forceHideAction: (row) => row.remaining != "$0",
+            },
+          ]}
         />
       </Grid>
       {entryDetails != undefined && (
@@ -221,11 +233,17 @@ export default function ReportesPage() {
           id={entryDetails.id}
         />
       )}
+      {entryToPay != undefined && (
+        <PaymentModal
+          onClose={() => setEntryToPay(undefined)}
+          entry={entryToPay}
+        />
+      )}
     </Grid>
   );
 }
 
-type TEntryTableFields = {
+export type TEntryTableField = {
   id: number;
   fecha_ingreso: string;
   hora_ingreso: string;
@@ -233,7 +251,8 @@ type TEntryTableFields = {
   hora_salida: string;
   pet: string;
   services: string[];
-  remaining: number;
+  remaining: string;
+  total: string;
 };
 
 const months = [
