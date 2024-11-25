@@ -29,7 +29,7 @@ export default async function updateEntry(id: number, data: TUpdateEntryData) {
 export type TUpdateEntryData = Partial<
   Omit<TEntry, "id_entry" | "pet" | "questionnaires" | "services"> & {
     id_pet: number;
-    questionnaires: { id_question: number; answer: string }[];
+    questionnaire: { id_question: number; answer: string }[];
     services: number[];
     notification_seen: boolean;
   }

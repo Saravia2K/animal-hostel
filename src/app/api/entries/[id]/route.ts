@@ -19,7 +19,7 @@ export async function PUT(
   }
 
   try {
-    const { services, questionnaires, ...data } =
+    const { services, questionnaire, ...data } =
       (await req.json()) as TUpdateEntryData;
 
     const [updatedEntry] = await prisma.$transaction([
@@ -35,7 +35,7 @@ export async function PUT(
           },
         },
       }),
-      ...(questionnaires?.map((q) =>
+      ...(questionnaire?.map((q) =>
         prisma.questionnaire.upsert({
           where: {
             id_entry_id_question: {
