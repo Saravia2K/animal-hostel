@@ -1,7 +1,7 @@
 version: "3"
 services:
   postgres:
-    container_name: vital-care-db
+    container_name: animal-hostel-db
     image: postgres:15.3-alpine3.18
     volumes:
       - ./data:/var/lib/postgresql/data
