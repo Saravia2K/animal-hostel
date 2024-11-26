@@ -26,6 +26,10 @@
     height: 100%;
   }
 
+  &.responsive {
+    grid-template-columns: 100%;
+  }
+
   .nav {
     display: grid;
     grid-template-rows: 1fr 75% 1fr;
