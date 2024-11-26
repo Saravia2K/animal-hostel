@@ -56,13 +56,17 @@ export default function MascotasPage() {
             Añadir mascota
           </Button>
         </Grid>
-        <Grid size={8}>
-          <SearchInput onChange={handleSearch} name="mascotas_search" />
+        <Grid size={{ xs: 12, md: 8 }}>
+          <SearchInput
+            onChange={handleSearch}
+            name="mascotas_search"
+            fullWidth
+          />
         </Grid>
       </Grid>
       <Grid container spacing={3} mt={5}>
         {currentPets.map((p, i) => (
-          <Grid key={i} size={3}>
+          <Grid key={i} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
             <PetCard
               name={p.name}
               owner_name={`${p.owner.names} ${p.owner.last_names}`}

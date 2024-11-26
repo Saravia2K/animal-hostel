@@ -2,7 +2,14 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Box, Button, Grid2 as Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  useTheme,
+  Typography,
+  Grid2 as Grid,
+  useMediaQuery,
+} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -20,6 +27,8 @@ export default function MascotaDetailsPage() {
   const { pet } = usePet(+id);
   const { reloadPets } = usePets();
   const router = useRouter();
+  const MUITheme = useTheme();
+  const isMobile = useMediaQuery(MUITheme.breakpoints.down("sm"));
 
   const handleDeleteButton = () => {
     if (pet?.id_pet == undefined) return;
@@ -62,8 +71,9 @@ export default function MascotaDetailsPage() {
           display="flex"
           justifyContent="space-between"
           alignItems="center"
+          flexWrap="wrap"
         >
-          <Title text={pet.name} mb={0} />
+          <Title text={pet.name} mb={isMobile ? 3 : 0} />
           <Box display="flex" gap={2}>
             <Button
               variant="contained"
@@ -98,20 +108,20 @@ export default function MascotaDetailsPage() {
           borderRadius: "10px",
         }}
       >
-        <Grid size={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Image
             src={dogImage}
             alt=""
             style={{ border: "2px solid grey", borderRadius: "100%" }}
           />
         </Grid>
-        <Grid size={8}>
+        <Grid size={{ xs: 12, sm: 8 }}>
           <Grid container spacing={4} columns={12}>
             <Grid size={12}>
               <Title text="Datos de la mascota" mb={0} fontSize={25} />
             </Grid>
 
-            <Grid size={4}>
+            <Grid size={{ xs: 6, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Nombre:
               </Typography>
@@ -120,7 +130,7 @@ export default function MascotaDetailsPage() {
               </Typography>
             </Grid>
 
-            <Grid size={4}>
+            <Grid size={{ xs: 6, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Sexo:
               </Typography>
@@ -129,7 +139,7 @@ export default function MascotaDetailsPage() {
               </Typography>
             </Grid>
 
-            <Grid size={4}>
+            <Grid size={{ xs: 6, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Raza:
               </Typography>
@@ -138,7 +148,7 @@ export default function MascotaDetailsPage() {
               </Typography>
             </Grid>
 
-            <Grid size={4}>
+            <Grid size={{ xs: 6, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Color:
               </Typography>
@@ -147,7 +157,7 @@ export default function MascotaDetailsPage() {
               </Typography>
             </Grid>
 
-            <Grid size={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Fecha de nacimiento:
               </Typography>
@@ -161,7 +171,7 @@ export default function MascotaDetailsPage() {
             <Grid size={12}>
               <Title text="Datos del dueño" mb={0} fontSize={25} />
             </Grid>
-            <Grid size={4}>
+            <Grid size={{ xs: 6, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Nombre:
               </Typography>
@@ -170,7 +180,7 @@ export default function MascotaDetailsPage() {
               </Typography>
             </Grid>
 
-            <Grid size={4}>
+            <Grid size={{ xs: 6, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Teléfono:
               </Typography>
@@ -179,7 +189,7 @@ export default function MascotaDetailsPage() {
               </Typography>
             </Grid>
 
-            <Grid size={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Typography fontFamily="inherit" fontWeight="bold">
                 Dirección:
               </Typography>
