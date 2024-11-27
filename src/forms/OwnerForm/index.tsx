@@ -10,6 +10,7 @@ import Title from "@/components/Title";
 import createOwner from "@/services/owners/createOwner";
 import updateOwner from "@/services/owners/updateOwner";
 import useOwners from "@/hooks/useOwners";
+import useIsResponsive from "@/hooks/useIsResponsive";
 
 export default function OwnerForm({
   initialValues,
@@ -17,6 +18,7 @@ export default function OwnerForm({
   independent,
 }: TProps) {
   const { reloadOwners } = useOwners();
+  const isResponsive = useIsResponsive();
 
   const {
     register,
@@ -82,7 +84,7 @@ export default function OwnerForm({
       borderRadius={independent ? 3 : 0}
       p={independent ? 7 : 0}
       sx={{
-        width: independent ? "100%" : "50dvw",
+        width: independent || isResponsive ? "100%" : "50dvw",
         backgroundColor: "#fff",
       }}
     >
@@ -95,7 +97,7 @@ export default function OwnerForm({
           />
         </Grid>
       )}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Nombres"
@@ -103,7 +105,7 @@ export default function OwnerForm({
           {...register("names")}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Apellidos"
@@ -111,7 +113,7 @@ export default function OwnerForm({
           {...register("last_names")}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Email"
@@ -120,7 +122,7 @@ export default function OwnerForm({
           {...register("email")}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Teléfono"

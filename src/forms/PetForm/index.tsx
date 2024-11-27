@@ -10,6 +10,8 @@ import {
   Grid2 as Grid,
   FormControlLabel,
   CircularProgress,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { useForm, type SubmitHandler, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -29,6 +31,7 @@ import createPet from "@/services/pets/createPet";
 import updatePet from "@/services/pets/updatePet";
 
 import styles from "./PetForm.module.scss";
+import { useRouter } from "next-nprogress-bar";
 
 export default function PetForm({ initialValues, onSuccessForm }: TProps) {
   const { owners } = useOwners();
@@ -38,6 +41,9 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
     null
   );
   const qc = useQueryClient();
+  const router = useRouter();
+  const MUITheme = useTheme();
+  const isResponsive = useMediaQuery(MUITheme.breakpoints.down("md"));
 
   const {
     register,
@@ -102,6 +108,19 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
         type: "error",
       });
     }
+  };
+
+  const handleSubformOpen = (subform: "owner" | "veterinarian") => {
+    if (!isResponsive) {
+      setFormToShow(subform);
+      return;
+    }
+
+    const pages = {
+      owner: "clientes",
+      veterinarian: "encargados",
+    };
+    router.push(`/dashboard/${pages[subform]}/agregar?from_mascotas=1`);
   };
 
   const handleCloseFormToShow = () => setFormToShow(null);
@@ -194,7 +213,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           render={({ field }) => (
             <Select
               label="Dueño"
-              onAddBtnClick={() => setFormToShow("owner")}
+              onAddBtnClick={() => handleSubformOpen("owner")}
               items={owners?.map((o) => ({
                 label: `${o.names} ${o.last_names}`,
                 value: o.id_owner,
@@ -215,7 +234,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           render={({ field }) => (
             <Select
               label="Encargado"
-              onAddBtnClick={() => setFormToShow("veterinarian")}
+              onAddBtnClick={() => handleSubformOpen("veterinarian")}
               items={veterinarians?.map((v) => ({
                 label: `${v.names} ${v.last_names}`,
                 value: v.id_veterinarian,
