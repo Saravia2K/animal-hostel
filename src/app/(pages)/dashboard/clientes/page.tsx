@@ -25,6 +25,7 @@ import Modal from "@/components/Modal";
 import OwnerForm from "@/forms/OwnerForm";
 
 import useOwners from "@/hooks/useOwners";
+import useIsResponsive from "@/hooks/useIsResponsive";
 import deleteOwner from "@/services/owners/deleteOwner";
 
 import styles from "./page.module.scss";
@@ -34,6 +35,7 @@ export default function ClientesPage() {
   const { owners, reloadOwners } = useOwners();
   const qc = useQueryClient();
   const router = useRouter();
+  const isResponsive = useIsResponsive();
 
   const handleCloseFormToShow = () => {
     setOpenForm(false);
@@ -71,6 +73,15 @@ export default function ClientesPage() {
     });
   };
 
+  const handleAddClienteClick = () => {
+    if (isResponsive) {
+      router.push("/dashboard/clientes/agregar");
+      return;
+    }
+
+    setOpenForm(true);
+  };
+
   return (
     <Grid container className={styles["clientes-page"]} spacing={5}>
       <Grid
@@ -83,7 +94,7 @@ export default function ClientesPage() {
         <Button
           variant="contained"
           sx={{ backgroundColor: "var(--lightGreen)" }}
-          onClick={() => setOpenForm(true)}
+          onClick={handleAddClienteClick}
         >
           Agregar cliente
         </Button>

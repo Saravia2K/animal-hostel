@@ -1,21 +1,23 @@
 "use client";
 
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { Button, Grid2 as Grid, Typography } from "@mui/material";
 
 import Title from "@/components/Title";
+import CardInformation from "@/components/CardInformation";
 
 import useOwner from "@/hooks/useOwner";
+import useIsResponsive from "@/hooks/useIsResponsive";
 
 import mascotaIcon from "@/assets/images/mascota_icon.png";
-import Image from "next/image";
-import CardInformation from "@/components/CardInformation";
 
 export default function ClienteDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { owner, ownerLoading } = useOwner(+id);
   const router = useRouter();
+  const isResponsive = useIsResponsive({ excludeTablets: true });
 
   if (!owner || ownerLoading) return;
   return (
@@ -23,15 +25,17 @@ export default function ClienteDetailPage() {
       <Grid
         container
         spacing={4}
-        p={8}
+        p={isResponsive ? 4 : 8}
         borderRadius={4}
         sx={{ backgroundColor: "#fff" }}
       >
         <Grid
           size={12}
           display="flex"
-          justifyContent="space-between"
-          alignItems="center"
+          justifyContent={isResponsive ? "initial" : "space-between"}
+          alignItems={isResponsive ? "initial" : "center"}
+          flexDirection={isResponsive ? "column" : "row"}
+          gap={isResponsive ? 2 : 0}
         >
           <Title text={`${owner?.names} ${owner?.last_names}`} mb={0} />
           <Button
@@ -45,19 +49,19 @@ export default function ClienteDetailPage() {
           </Button>
         </Grid>
 
-        <Grid size={5}>
+        <Grid size={{ xs: 12, sm: 5 }}>
           <CardInformation header="Dirección:" text={owner.home} />
         </Grid>
 
-        <Grid size={5}>
+        <Grid size={{ xs: 12, sm: 5 }}>
           <CardInformation header="TEL:" text={owner.cellphone} />
         </Grid>
 
-        <Grid size={5}>
+        <Grid size={{ xs: 12, sm: 5 }}>
           <CardInformation header="Email:" text={owner.email} />
         </Grid>
 
-        <Grid size={5}>
+        <Grid size={{ xs: 12, sm: 5 }}>
           <CardInformation header="Facebook:" text={owner?.facebook || "-"} />
         </Grid>
       </Grid>
@@ -75,7 +79,7 @@ export default function ClienteDetailPage() {
         {owner?.pets.map((p) => (
           <Grid
             key={p.id_pet}
-            size={3}
+            size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             borderRadius={3}
             p={2}
             display="grid"
