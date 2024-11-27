@@ -114,7 +114,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
       className={styles["pet-form"]}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Input
           label="Nombre"
           placeholder="Escribe el nombre aquí"
@@ -123,7 +123,11 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           helperText={errors.name?.message}
         />
       </Grid>
-      <Grid size={4} display="flex" alignItems="flex-end">
+      <Grid
+        size={{ xs: 12, sm: 6, md: 4 }}
+        display="flex"
+        alignItems="flex-end"
+      >
         <Controller
           name="birthday"
           control={control}
@@ -140,7 +144,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           )}
         />
       </Grid>
-      <Grid size={2} display="flex" alignItems="flex-end">
+      <Grid size={{ xs: 4, sm: 6, md: 2 }} display="flex" alignItems="flex-end">
         <Controller
           name="sex"
           control={control}
@@ -164,7 +168,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           )}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 8, sm: 6 }}>
         <Input
           label="Raza"
           placeholder="Escribe la raza aquí"
@@ -173,7 +177,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           helperText={errors.breed?.message}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           label="Color"
           placeholder="Escribe el color aquí"
@@ -182,7 +186,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           helperText={errors.coat_color?.message}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Controller
           name="id_owner"
           control={control}
@@ -203,7 +207,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           )}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Controller
           name="id_veterinarian"
           control={control}
@@ -224,7 +228,7 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           )}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           multiline
           label="Información extra (alergias, comportamiento, etc.)"
@@ -235,7 +239,12 @@ export default function PetForm({ initialValues, onSuccessForm }: TProps) {
           helperText={errors.extra_data?.message}
         />
       </Grid>
-      <Grid size={6} display="flex" justifyContent="center" alignItems="center">
+      <Grid
+        size={{ xs: 12, md: 6 }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Button
           disabled={isSubmitting}
           type="submit"
