@@ -98,7 +98,7 @@ export default function VeterinarianForm({
           />
         </Grid>
       )}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Nombres"
@@ -106,7 +106,7 @@ export default function VeterinarianForm({
           {...register("names")}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Apellidos"
@@ -114,7 +114,7 @@ export default function VeterinarianForm({
           {...register("last_names")}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Nombre de clínica"
@@ -122,7 +122,7 @@ export default function VeterinarianForm({
           {...register("clinic_name")}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           required
           label="Teléfono"
