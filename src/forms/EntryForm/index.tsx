@@ -224,7 +224,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
           rules={{ required: "Este campo es requerido" }}
           render={({ field }) => (
             <Calendar
-              label="Fecha de egreso"
+              label="Fecha de salida"
               value={dayjs(field.value)}
               onChange={field.onChange}
               error={!!errors.exit_date}
@@ -241,7 +241,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
           rules={{ required: "Este campo es requerido" }}
           render={({ field }) => (
             <Clock
-              label="Hora de egreso"
+              label="Hora de salida"
               value={dayjs(field.value)}
               onChange={field.onChange}
               error={!!errors.exit_time}
