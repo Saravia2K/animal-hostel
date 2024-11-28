@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Table,
-  Button,
   TableRow,
   TableBody,
   TableCell,
@@ -20,11 +19,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 
-import Title from "@/components/Title";
 import Modal from "@/components/Modal";
+import TitleWithButton from "@/components/TitleWithButton";
 import VeterinarianForm from "@/forms/VeterinarianForm";
 
 import useVeterinarians from "@/hooks/useVeterinarians";
+import useIsResponsive from "@/hooks/useIsResponsive";
 import deleteVeterinarian from "@/services/veterinarians/deleteVeterinarian";
 
 import styles from "./page.module.scss";
@@ -34,6 +34,7 @@ export default function ClientesPage() {
   const { veterinarians, reloadVeterinarians } = useVeterinarians();
   const qc = useQueryClient();
   const router = useRouter();
+  const isResponsive = useIsResponsive();
 
   const handleCloseFormToShow = () => {
     setOpenForm(false);
@@ -71,23 +72,23 @@ export default function ClientesPage() {
     });
   };
 
+  const handleTitleButtonClick = () => {
+    if (isResponsive) {
+      router.push("/dashboard/encargados/agregar");
+      return;
+    }
+
+    setOpenForm(true);
+  };
+
   return (
     <Grid container className={styles["clientes-page"]} spacing={5}>
-      <Grid
-        size={12}
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Title text="Encargados" mb={0} />
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: "var(--lightGreen)" }}
-          onClick={() => setOpenForm(true)}
-        >
-          Agregar encargado
-        </Button>
-      </Grid>
+      <TitleWithButton
+        grid
+        title="Encargados"
+        buttonText="Agregar encargado"
+        onClick={handleTitleButtonClick}
+      />
       <Grid size={12} borderRadius={2} p={3} sx={{ backgroundColor: "#fff" }}>
         <TableContainer>
           <Table>

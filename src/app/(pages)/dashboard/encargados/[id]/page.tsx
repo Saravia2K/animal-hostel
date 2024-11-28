@@ -1,21 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
-import { Button, Grid2 as Grid, Typography } from "@mui/material";
+import { Grid2 as Grid } from "@mui/material";
 
-import Title from "@/components/Title";
 import CardInformation from "@/components/CardInformation";
+import TitleWithButton from "@/components/TitleWithButton";
+import PetsCardsList from "@/components/PetsCardsList";
 
 import useVeterinarian from "@/hooks/useVeterinarian";
-
-import mascotaIcon from "@/assets/images/mascota_icon.png";
+import useIsResponsive from "@/hooks/useIsResponsive";
 
 export default function ClienteDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { veterinarian, veterinarianLoading } = useVeterinarian(+id);
   const router = useRouter();
+  const isResponsive = useIsResponsive({ excludeTablets: true });
 
   if (!veterinarian || veterinarianLoading) return;
   return (
@@ -23,32 +23,21 @@ export default function ClienteDetailPage() {
       <Grid
         container
         spacing={4}
-        p={8}
+        p={isResponsive ? 4 : 8}
         borderRadius={4}
         sx={{ backgroundColor: "#fff" }}
       >
-        <Grid
-          size={12}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Title
-            text={`${veterinarian?.names} ${veterinarian?.last_names}`}
-            mb={0}
-          />
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: "var(--orange)" }}
-            onClick={() =>
-              router.push(
-                `/dashboard/encargados/${veterinarian.id_veterinarian}/editar`
-              )
-            }
-          >
-            Editar encargado
-          </Button>
-        </Grid>
+        <TitleWithButton
+          grid
+          title={`${veterinarian?.names} ${veterinarian?.last_names}`}
+          buttonText="Editar encargado"
+          onClick={() =>
+            router.push(
+              `/dashboard/encargados/${veterinarian.id_veterinarian}/editar`
+            )
+          }
+          btnColor="orange"
+        />
 
         <Grid size={5}>
           <CardInformation header="Nombre(s):" text={veterinarian.names} />
@@ -66,41 +55,7 @@ export default function ClienteDetailPage() {
         </Grid>
       </Grid>
 
-      <Grid container rowSpacing={3} columnSpacing={6} mt={5}>
-        <Grid
-          size={12}
-          fontWeight="bold"
-          pl={3}
-          pb={1}
-          borderBottom="1px solid grey"
-        >
-          Mascotas
-        </Grid>
-        {veterinarian?.pets.map((p) => (
-          <Grid
-            key={p.id_pet}
-            size={3}
-            borderRadius={3}
-            p={2}
-            display="grid"
-            gridTemplateColumns="25% 1fr"
-            gap={3}
-            alignItems="center"
-            sx={{ backgroundColor: "#7fc243", cursor: "pointer" }}
-            onClick={() => router.push(`/dashboard/mascotas/${p.id_pet}`)}
-          >
-            <Image src={mascotaIcon} alt="" />
-            <Typography
-              fontFamily="inherit"
-              fontSize={20}
-              fontWeight="bold"
-              color="#fff"
-            >
-              {p.name}
-            </Typography>
-          </Grid>
-        ))}
-      </Grid>
+      <PetsCardsList pets={veterinarian.pets} />
     </>
   );
 }
