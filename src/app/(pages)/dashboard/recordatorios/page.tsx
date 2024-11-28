@@ -12,11 +12,13 @@ import EntryDetailsModal from "@/components/EntryDetailsModal";
 import useEntriesByDate from "@/hooks/useEntriesByDate";
 import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import updateEntry from "@/services/entries/updateEntry";
+import useIsResponsive from "@/hooks/useIsResponsive";
 
 export default function RecordatoriosPage() {
   const [detailsId, setDetailsId] = useState<number>();
   const { entries, reloadEntries } = useEntriesByDate();
-  const { show } = useLoadingOverlay();
+  const loadingOverlay = useLoadingOverlay();
+  const isResponsive = useIsResponsive();
 
   const handleMarkAsSeen = async (
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
@@ -24,7 +26,7 @@ export default function RecordatoriosPage() {
   ) => {
     try {
       event.stopPropagation();
-      show();
+      loadingOverlay.show();
       const success = updateEntry(id, {
         notification_seen: true,
       });
@@ -32,7 +34,7 @@ export default function RecordatoriosPage() {
       if (!success)
         throw new Error("Error trying to mark as seen a notification");
 
-      await reloadEntries();
+      reloadEntries();
     } catch (error) {
       if (process.env.NODE_ENV == "development") console.error(error);
       toast("Error al intentar marcar como leída una notificación", {
@@ -61,10 +63,12 @@ export default function RecordatoriosPage() {
               fontWeight={e.notification_seen ? "normal" : "bold"}
               display="flex"
               justifyContent="space-between"
+              flexDirection={isResponsive ? "column" : "row"}
+              gap={isResponsive ? 2 : 0}
               onClick={() => setDetailsId(e.id_entry)}
               sx={{ cursor: "pointer" }}
             >
-              <Box>
+              <Box fontSize={isResponsive ? 20 : 25}>
                 <Box component="span" color="var(--orange)">
                   ¡Recordatorio!
                 </Box>{" "}
