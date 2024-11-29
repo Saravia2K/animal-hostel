@@ -45,7 +45,9 @@ export default function Table<T extends Record<string, TTableAcceptableValues>>(
             {headers
               .map(({ id, label }, i) =>
                 id == "id" && ignoreIdColumn ? null : (
-                  <TableCell key={i}>{label}</TableCell>
+                  <TableCell key={i} sx={{ minWidth: 150 }}>
+                    {label}
+                  </TableCell>
                 )
               )
               .filter(Boolean)}
