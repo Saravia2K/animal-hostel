@@ -5,21 +5,16 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import Input from "@/components/Input";
+import GridForm from "@/components/GridForm";
 
 import createService from "@/services/services/createService";
 import updateService from "@/services/services/updateService";
 
-type TFormValues = {
-  name: string;
-  description: string;
-};
-
-type TProps = {
-  initialValues?: Partial<TFormValues> & { id_service?: number };
-  onSuccessForm?: () => void;
-};
-
-export default function Form({ initialValues, onSuccessForm }: TProps) {
+export default function ServicesForm({
+  initialValues,
+  independent,
+  onSuccessForm,
+}: TProps) {
   const {
     register,
     handleSubmit,
@@ -73,11 +68,8 @@ export default function Form({ initialValues, onSuccessForm }: TProps) {
   };
 
   return (
-    <Grid
-      container
-      component="form"
-      spacing={3}
-      width={600}
+    <GridForm
+      independent={independent}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       <Grid size={12}>
@@ -115,6 +107,17 @@ export default function Form({ initialValues, onSuccessForm }: TProps) {
             : "Agregar"}
         </Button>
       </Grid>
-    </Grid>
+    </GridForm>
   );
 }
+
+type TFormValues = {
+  name: string;
+  description: string;
+};
+
+type TProps = {
+  initialValues?: Partial<TFormValues> & { id_service?: number };
+  independent?: boolean;
+  onSuccessForm?: () => void;
+};

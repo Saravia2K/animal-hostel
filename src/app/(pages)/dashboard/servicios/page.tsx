@@ -1,34 +1,42 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { useRouter } from "next-nprogress-bar";
+import { Box } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-import Title from "@/components/Title";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
-import Form from "./Form";
+import TitleWithButton from "@/components/TitleWithButton";
+import ServicesForm from "@/forms/ServicesForm";
 
-import { deleteService } from "@/services/services/deleteService";
 import useServices from "@/hooks/useServices";
-import { TService } from "@/types";
+import useIsResponsive from "@/hooks/useIsResponsive";
+import { deleteService } from "@/services/services/deleteService";
 
 export default function ServiciosPage() {
   const { services, reloadServices } = useServices();
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [service, setService] = useState<TService>();
+  const [service, setService] = useState<TTableData>();
+  const router = useRouter();
+  const isResponsive = useIsResponsive();
 
   const handleModalClose = () => {
     setOpen(false);
     setService(undefined);
   };
 
-  const handleEditIconClick = (service: TService) => {
-    setOpen(true);
-    setService(service);
+  const handleEditIconClick = (service: TTableData) => {
+    if (!isResponsive) {
+      setOpen(true);
+      setService(service);
+      return;
+    }
+
+    router.push(`/dashboard/servicios/${service.id}/editar`);
   };
 
   const handleSuccessForm = () => {
@@ -69,18 +77,22 @@ export default function ServiciosPage() {
     });
   };
 
+  const handleAddServiceClick = () => {
+    if (!isResponsive) {
+      setOpen(true);
+      return;
+    }
+
+    router.push("/dashboard/servicios/agregar");
+  };
+
   return (
     <>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Title text="Servicios" mb={0} />
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: "var(--lightGreen)" }}
-          onClick={() => setOpen(true)}
-        >
-          Agregar servicio
-        </Button>
-      </Box>
+      <TitleWithButton
+        title="Servicios"
+        buttonText="Agregar servicio"
+        onClick={handleAddServiceClick}
+      />
       <Box mt={7} p={3} borderRadius={2} bgcolor="#fff">
         <Table<TTableData>
           headers={[
@@ -96,14 +108,16 @@ export default function ServiciosPage() {
             })) ?? []
           }
           actions={{
-            edit: ({ id, ...row }) =>
-              handleEditIconClick({ ...row, id_service: id }),
+            edit: (row) => handleEditIconClick(row),
             delete: (row) => handleDeleteIconClick(row.id),
           }}
         />
       </Box>
       <Modal open={open} onClose={handleModalClose}>
-        <Form initialValues={service} onSuccessForm={handleSuccessForm} />
+        <ServicesForm
+          initialValues={service}
+          onSuccessForm={handleSuccessForm}
+        />
       </Modal>
     </>
   );
