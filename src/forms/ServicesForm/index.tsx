@@ -69,6 +69,7 @@ export default function ServicesForm({
 
   return (
     <GridForm
+      excludeTablets
       independent={independent}
       onSubmit={handleSubmit(handleFormSubmit)}
     >

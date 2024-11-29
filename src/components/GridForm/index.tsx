@@ -5,8 +5,13 @@ import { Grid2 as Grid } from "@mui/material";
 
 import useIsResponsive from "@/hooks/useIsResponsive";
 
-export default function GridForm({ children, independent, onSubmit }: TProps) {
-  const isResponsive = useIsResponsive();
+export default function GridForm({
+  children,
+  independent,
+  excludeTablets,
+  onSubmit,
+}: TProps) {
+  const isResponsive = useIsResponsive({ excludeTablets });
 
   const independentPadding = isResponsive ? 5 : 7;
   return (
@@ -29,5 +34,6 @@ export default function GridForm({ children, independent, onSubmit }: TProps) {
 
 type TProps = PropsWithChildren<{
   independent?: boolean;
+  excludeTablets?: boolean;
   onSubmit?: () => void;
 }>;
