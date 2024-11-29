@@ -40,6 +40,7 @@ export type TService = {
   id_service: number;
   name: string;
   description: string;
+  entries: TEntry[];
 };
 
 export type TQuestion = {

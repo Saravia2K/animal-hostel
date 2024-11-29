@@ -1,9 +1,7 @@
 import { API_URL } from "@/consts";
 import { TService } from "@/types";
 
-export default async function createService(
-  data: Omit<TService, "id_service">
-): Promise<boolean> {
+export default async function createService(data: TData): Promise<boolean> {
   try {
     const response = await fetch(`${API_URL}/services`, {
       method: "POST",
@@ -23,3 +21,5 @@ export default async function createService(
     return false;
   }
 }
+
+type TData = Omit<TService, "id_service" | "entries">;
