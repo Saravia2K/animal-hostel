@@ -6,11 +6,11 @@ import { toast } from "react-toastify";
 
 import Input from "@/components/Input";
 import Title from "@/components/Title";
+import GridForm from "@/components/GridForm";
 
 import createOwner from "@/services/owners/createOwner";
 import updateOwner from "@/services/owners/updateOwner";
 import useOwners from "@/hooks/useOwners";
-import useIsResponsive from "@/hooks/useIsResponsive";
 
 export default function OwnerForm({
   initialValues,
@@ -18,7 +18,6 @@ export default function OwnerForm({
   independent,
 }: TProps) {
   const { reloadOwners } = useOwners();
-  const isResponsive = useIsResponsive();
 
   const {
     register,
@@ -77,17 +76,7 @@ export default function OwnerForm({
   const submitHandler = handleSubmit(handleFormSubmit);
 
   return (
-    <Grid
-      container
-      component="form"
-      spacing={3}
-      borderRadius={independent ? 3 : 0}
-      p={independent ? 7 : 0}
-      sx={{
-        width: independent || isResponsive ? "100%" : "50dvw",
-        backgroundColor: "#fff",
-      }}
-    >
+    <GridForm independent={independent}>
       {!independent && (
         <Grid size={12}>
           <Title
@@ -160,7 +149,7 @@ export default function OwnerForm({
           )}
         </Button>
       </Grid>
-    </Grid>
+    </GridForm>
   );
 }
 
