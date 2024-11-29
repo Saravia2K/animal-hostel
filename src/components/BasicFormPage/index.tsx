@@ -7,13 +7,17 @@ import Title from "@/components/Title";
 
 export default function BasicFormPage({
   title,
+  initialValues,
   normalRedirectPage,
   component: Component,
+  onSuccessForm,
 }: TProps) {
   const router = useRouter();
   const fromMascotas = useSearchParams().get("from_mascotas") == "1";
 
   const handleFormSuccess = () => {
+    if (onSuccessForm) onSuccessForm();
+
     const redirectPage = fromMascotas ? "mascotas/agregar" : normalRedirectPage;
     router.push(`/dashboard/${redirectPage}`);
   };
@@ -21,7 +25,11 @@ export default function BasicFormPage({
   return (
     <>
       <Title text={title} />
-      <Component independent onSuccessForm={handleFormSuccess} />
+      <Component
+        independent
+        onSuccessForm={handleFormSuccess}
+        initialValues={initialValues}
+      />
     </>
   );
 }
@@ -30,10 +38,12 @@ type TProps = {
   component: (props: TComponentProps) => JSX.Element;
   normalRedirectPage: string;
   title: string;
+  initialValues?: Record<string, unknown>;
+  onSuccessForm?: () => void;
 };
 
 type TComponentProps = {
-  initialValues?: Record<string, string | number>;
+  initialValues?: Record<string, unknown>;
   onSuccessForm?: () => void;
   independent?: boolean;
 };
