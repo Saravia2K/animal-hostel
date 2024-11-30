@@ -182,7 +182,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       {/* Fecha y Hora de Ingreso */}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Controller
           name="entry_date"
           control={control}
@@ -199,7 +199,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
           )}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Controller
           name="entry_time"
           control={control}
@@ -217,7 +217,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
       </Grid>
 
       {/* Fecha y Hora de Egreso */}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Controller
           name="exit_date"
           control={control}
@@ -234,7 +234,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
           )}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Controller
           name="exit_time"
           control={control}
@@ -294,12 +294,17 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
       {/* Preguntas */}
       {questions?.map((q, index) => (
         <Fragment key={q.id_question}>
-          <Grid size={6} display="flex" alignItems="center" fontWeight={5}>
+          <Grid
+            size={{ xs: 12, md: 6 }}
+            display="flex"
+            alignItems="center"
+            fontWeight={5}
+          >
             <Typography fontFamily="inherit" fontWeight="bold" fontSize={20}>
               {q.text}
             </Typography>
           </Grid>
-          <Grid size={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Input
               multiline
               label="Respuesta"
@@ -313,12 +318,17 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
       ))}
 
       {/* Observaciones Generales */}
-      <Grid size={6} display="flex" alignItems="center" fontWeight={5}>
+      <Grid
+        size={{ xs: 12, md: 6 }}
+        display="flex"
+        alignItems="center"
+        fontWeight={5}
+      >
         <Typography fontFamily="inherit" fontWeight="bold" fontSize={20}>
           Observaciones generales:
         </Typography>
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Input
           multiline
           label="Observaciones"
@@ -329,7 +339,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
         />
       </Grid>
 
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Input
           {...register("total")}
           label="Total"
@@ -342,7 +352,7 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
         />
       </Grid>
 
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Input
           {...register("advance_payment")}
           label="Anticipo"

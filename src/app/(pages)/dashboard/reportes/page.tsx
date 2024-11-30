@@ -119,12 +119,12 @@ export default function ReportesPage() {
       <Grid size={12}>
         <Grid
           container
-          columns={services.length * 3 + 7}
+          columns={12}
           spacing={2}
           display="flex"
           alignItems="center"
         >
-          <Grid size={3}>
+          <Grid size={{ xs: 12, sm: 3, md: 2 }}>
             <Typography
               fontFamily="inherit"
               color={COLORS.orange}
@@ -134,7 +134,7 @@ export default function ReportesPage() {
               Filtrar por:
             </Typography>
           </Grid>
-          <Grid size={2}>
+          <Grid size={{ xs: 12, sm: 2 }}>
             <Select
               items={months}
               value={filters.month}
@@ -144,7 +144,7 @@ export default function ReportesPage() {
               sx={{ backgroundColor: "#fff" }}
             />
           </Grid>
-          <Grid size={2}>
+          <Grid size={{ xs: 12, sm: 2 }}>
             <Select
               items={years.map((y) => ({
                 label: y,
@@ -160,7 +160,7 @@ export default function ReportesPage() {
           {services.map((s, i) => (
             <Grid
               key={i}
-              size={3}
+              size={{ xs: 12, sm: 6, md: 3 }}
               sx={{
                 backgroundColor: "#fff",
                 border: "2px solid var(--lightGreen)",

@@ -8,16 +8,20 @@ import Title from "@/components/Title";
 import EntryForm from "@/forms/EntryForm";
 import useEntry from "@/hooks/useEntry";
 import useEntries from "@/hooks/useEntries";
+import useEntriesByDate from "@/hooks/useEntriesByDate";
 
 export default function EditarReporte() {
   const { id } = useParams<{ id: string }>();
   const { entry, reloadEntry } = useEntry(+id);
   const { reloadEntries } = useEntries();
+  const { reloadEntries: reloadTodayEntries } = useEntriesByDate();
+
   const router = useRouter();
 
   const handleSuccessForm = async () => {
     reloadEntries();
     reloadEntry();
+    reloadTodayEntries();
     router.push("/dashboard/reportes");
   };
 

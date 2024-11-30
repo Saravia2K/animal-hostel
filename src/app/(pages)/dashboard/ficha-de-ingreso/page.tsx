@@ -7,13 +7,16 @@ import Title from "@/components/Title";
 import EntryForm from "@/forms/EntryForm";
 
 import useEntries from "@/hooks/useEntries";
+import useEntriesByDate from "@/hooks/useEntriesByDate";
 
 export default function FichaDeIngresoPage() {
   const router = useRouter();
   const { reloadEntries } = useEntries();
+  const { reloadEntries: reloadTodayEntries } = useEntriesByDate();
 
   const handleSuccessForm = async () => {
-    await reloadEntries();
+    reloadEntries();
+    reloadTodayEntries();
     router.push("/dashboard/reportes");
   };
 
