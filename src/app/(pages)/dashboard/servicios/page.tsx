@@ -22,7 +22,7 @@ export default function ServiciosPage() {
   const [open, setOpen] = useState(false);
   const [service, setService] = useState<TTableData>();
   const router = useRouter();
-  const isResponsive = useIsResponsive();
+  const isResponsive = useIsResponsive({ excludeTablets: true });
 
   const handleModalClose = () => {
     setOpen(false);
