@@ -1,23 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { useRouter } from "next-nprogress-bar";
+import { Box } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 import Table from "@/components/Table";
-import Title from "@/components/Title";
 import Modal from "@/components/Modal";
-import Form from "./Form";
+import TitleWithButton from "@/components/TitleWithButton";
+import QuestionForm from "@/forms/QuestionForm";
 
 import useQuestions from "@/hooks/useQuestions";
+import useIsResponsive from "@/hooks/useIsResponsive";
 import deleteQuestion from "@/services/questions/deleteQuestion";
 
 export default function PreguntasPage() {
-  const { questions, reloadQuestions } = useQuestions();
-  const qc = useQueryClient();
   const [open, setOpen] = useState(false);
+  const { questions, reloadQuestions } = useQuestions();
+  const router = useRouter();
+  const qc = useQueryClient();
+  const isResponsive = useIsResponsive({ excludeTablets: true });
 
   const handleModalClose = () => {
     setOpen(false);
@@ -61,18 +65,22 @@ export default function PreguntasPage() {
     });
   };
 
+  const handleTitleButtonClick = () => {
+    if (!isResponsive) {
+      setOpen(true);
+      return;
+    }
+
+    router.push("/dashboard/preguntas/agregar");
+  };
+
   return (
     <>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Title text="Preguntas" mb={0} />
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: "var(--lightGreen)" }}
-          onClick={() => setOpen(true)}
-        >
-          Agregar pregunta
-        </Button>
-      </Box>
+      <TitleWithButton
+        title="Preguntas"
+        buttonText="Agregar pregunta"
+        onClick={handleTitleButtonClick}
+      />
       <Box mt={7} p={3} borderRadius={2} bgcolor="#fff">
         <Table<TTableData>
           headers={[
@@ -91,7 +99,7 @@ export default function PreguntasPage() {
         />
       </Box>
       <Modal open={open} onClose={handleModalClose}>
-        <Form onSuccessForm={handleSuccessForm} />
+        <QuestionForm onSuccessForm={handleSuccessForm} />
       </Modal>
     </>
   );

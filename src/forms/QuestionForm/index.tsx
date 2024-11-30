@@ -8,8 +8,9 @@ import Input from "@/components/Input";
 
 import createQuestion from "@/services/questions/createQuestion";
 import useQuestions from "@/hooks/useQuestions";
+import GridForm from "@/components/GridForm";
 
-export default function QuestionForm({ onSuccessForm }: TProps) {
+export default function QuestionForm({ independent, onSuccessForm }: TProps) {
   const { reloadQuestions } = useQuestions();
 
   const {
@@ -37,11 +38,9 @@ export default function QuestionForm({ onSuccessForm }: TProps) {
   };
 
   return (
-    <Grid
-      container
-      component="form"
-      spacing={2}
-      width={600}
+    <GridForm
+      excludeTablets
+      independent={independent}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       <Grid size={12}>
@@ -69,7 +68,7 @@ export default function QuestionForm({ onSuccessForm }: TProps) {
           )}
         </Button>
       </Grid>
-    </Grid>
+    </GridForm>
   );
 }
 
@@ -78,5 +77,6 @@ type TFormValues = {
 };
 
 type TProps = {
+  independent?: boolean;
   onSuccessForm?: () => void;
 };
