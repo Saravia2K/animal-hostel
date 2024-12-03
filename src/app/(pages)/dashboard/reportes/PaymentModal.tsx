@@ -8,11 +8,13 @@ import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 import Title from "@/components/Title";
 
+import useIsResponsive from "@/hooks/useIsResponsive";
 import updateEntry from "@/services/entries/updateEntry";
 import { type TEntryTableField } from "./page";
 
 export default function PaymentModal({ onClose, entry }: TPaymentModalProps) {
   const qc = useQueryClient();
+  const isResponsive = useIsResponsive();
 
   const remainingNumber = +entry.remaining.replace("$", "");
   const {
@@ -42,8 +44,8 @@ export default function PaymentModal({ onClose, entry }: TPaymentModalProps) {
 
   return (
     <Modal open={true} onClose={onClose}>
-      <Box width={600}>
-        <Title text="Agregar abono" />
+      <Box width={isResponsive ? "auto" : 600}>
+        <Title text="Agregar abono" fontSize={isResponsive ? 30 : 40} />
         <Grid
           container
           spacing={4}
