@@ -16,7 +16,7 @@ import useIsResponsive from "@/hooks/useIsResponsive";
 
 export default function EntryDetails({ id }: { id: number }) {
   const { entry } = useEntry(id);
-  const isResponsive = useIsResponsive({ excludeTablets: true });
+  const isResponsive = useIsResponsive();
 
   // const generatePDF = () => {
   //   if (!entry) return;
