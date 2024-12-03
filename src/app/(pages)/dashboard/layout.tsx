@@ -4,7 +4,7 @@ import { useState, type PropsWithChildren } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import classNames from "classnames";
-import { Fab, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { Badge, Fab, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -81,9 +81,11 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
       )}
       <main className={styles.main}>
         {isResponsiveSidebar && (
-          <IconButton onClick={() => setOpenResponsiveSidebar(true)}>
-            <MenuIcon sx={{ color: "var(--orange)", fontSize: "40px" }} />
-          </IconButton>
+          <Badge badgeContent={NAV_ITEMS[4].badge || 0} color="secondary">
+            <IconButton onClick={() => setOpenResponsiveSidebar(true)}>
+              <MenuIcon sx={{ color: "var(--orange)", fontSize: "40px" }} />
+            </IconButton>
+          </Badge>
         )}
         {children}
         {!isInFichaDeIngreso && (
