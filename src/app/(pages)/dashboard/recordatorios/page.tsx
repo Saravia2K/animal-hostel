@@ -1,6 +1,7 @@
 "use client";
 
 import { type MouseEvent, useState } from "react";
+import { useRouter } from "next-nprogress-bar";
 import { Box, Button, Grid2 as Grid } from "@mui/material";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
@@ -9,16 +10,19 @@ import CheckIcon from "@mui/icons-material/Check";
 import Title from "@/components/Title";
 import EntryDetailsModal from "@/components/EntryDetailsModal";
 
-import useEntriesByDate from "@/hooks/useEntriesByDate";
+import useEntriesByDate, {
+  TUseEntriesByDateResponseItem,
+} from "@/hooks/useEntriesByDate";
 import useLoadingOverlay from "@/hooks/useLoadingOverlay";
-import updateEntry from "@/services/entries/updateEntry";
 import useIsResponsive from "@/hooks/useIsResponsive";
+import updateEntry from "@/services/entries/updateEntry";
 
 export default function RecordatoriosPage() {
   const [detailsId, setDetailsId] = useState<number>();
   const { entries, reloadEntries } = useEntriesByDate();
   const loadingOverlay = useLoadingOverlay();
   const isResponsive = useIsResponsive();
+  const router = useRouter();
 
   const handleMarkAsSeen = async (
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
@@ -43,6 +47,15 @@ export default function RecordatoriosPage() {
     }
   };
 
+  const handleNotificationClick = (e: TUseEntriesByDateResponseItem) => {
+    if (!isResponsive) {
+      setDetailsId(e.id_entry);
+      return;
+    }
+
+    router.push(`/dashboard/reportes/${e.id_entry}`);
+  };
+
   if (!entries) return;
   const listFormater = new Intl.ListFormat("es", {
     style: "long",
@@ -65,7 +78,7 @@ export default function RecordatoriosPage() {
               justifyContent="space-between"
               flexDirection={isResponsive ? "column" : "row"}
               gap={isResponsive ? 2 : 0}
-              onClick={() => setDetailsId(e.id_entry)}
+              onClick={() => handleNotificationClick(e)}
               sx={{ cursor: "pointer" }}
             >
               <Box fontSize={isResponsive ? 20 : 25}>
