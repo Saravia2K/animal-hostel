@@ -12,12 +12,13 @@ import Table from "@/components/Table";
 import Title from "@/components/Title";
 import Select from "@/components/Select";
 import Checkbox from "@/components/Checkbox";
-import EntryDetailsModal from "@/components/EntryDetailsModal";
+import { EntryDetailsModal } from "@/components/EntryDetails";
 import PaymentModal from "./PaymentModal";
 
 import deleteEntry from "@/services/entries/deleteEntry";
 import useEntries from "@/hooks/useEntries";
 import useServices from "@/hooks/useServices";
+import useIsResponsive from "@/hooks/useIsResponsive";
 import { COLORS } from "@/consts";
 import type { TEntry } from "@/types";
 
@@ -26,10 +27,11 @@ export default function ReportesPage() {
   const [currentEntries, setCurrentEntries] = useState<TEntry[]>([]);
   const [filters, setFilters] = useState({
     month: 0,
-    year: years[0],
+    year: years[years.length - 1],
     services: [] as number[],
   });
   const [entryToPay, setEntryToPay] = useState<TEntryTableField>();
+  const isResponsive = useIsResponsive();
   const { entries, reloadEntries } = useEntries();
   const { services } = useServices();
   const router = useRouter();
@@ -54,10 +56,15 @@ export default function ReportesPage() {
       );
 
     // Filtro por servicio
-    if (services.length > 0)
-      filteredEntries = filteredEntries.filter((fe) =>
-        fe.services.some((fes) => services.includes(fes.id_service))
-      );
+    filteredEntries =
+      services.length == 0
+        ? entries
+        : filteredEntries.filter((fe) =>
+            services.length > 1
+              ? fe.services.length >= services.length &&
+                fe.services.every((fes) => services.includes(fes.id_service))
+              : fe.services.some((fes) => services.includes(fes.id_service))
+          );
 
     setCurrentEntries(filteredEntries);
   }, [filters, entries]);
@@ -103,6 +110,15 @@ export default function ReportesPage() {
         });
       }
     });
+  };
+
+  const handleWatchActionClick = (row: TEntryTableField) => {
+    if (!isResponsive) {
+      setEntryDetails(row);
+      return;
+    }
+
+    router.push(`/dashboard/reportes/${row.id}`);
   };
 
   if (entries == undefined || services == undefined) return <></>;
@@ -210,7 +226,7 @@ export default function ReportesPage() {
             };
           })}
           actions={{
-            watch: (row) => setEntryDetails(row),
+            watch: handleWatchActionClick,
             delete: (row) => handleDeleteBtn(row.id),
             edit: (row) => router.push(`/dashboard/reportes/${row.id}/editar`),
           }}

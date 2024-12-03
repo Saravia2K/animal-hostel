@@ -65,7 +65,11 @@ export async function GET(req: Request) {
         where: { id_entry: Number(id_entry) },
         select: {
           id_entry: true,
-          pet: true,
+          pet: {
+            include: {
+              owner: true,
+            },
+          },
           questionnaires: {
             select: {
               id_questionnaire: true,

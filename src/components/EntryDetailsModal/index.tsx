@@ -11,10 +11,12 @@ import CardInformation from "@/components/CardInformation";
 import Modal from "../Modal";
 
 import useEntry from "@/hooks/useEntry";
+import useIsResponsive from "@/hooks/useIsResponsive";
 import { COLORS } from "@/consts";
 
 export default function EntryDetailsModal({ open, onClose, id }: TProps) {
   const { entry } = useEntry(id);
+  const isResponsive = useIsResponsive({ excludeTablets: true });
 
   const generatePDF = () => {
     if (!entry) return;
@@ -83,7 +85,11 @@ export default function EntryDetailsModal({ open, onClose, id }: TProps) {
     <Modal open={open} onClose={onClose}>
       <Grid container columns={12} spacing={2} width={700}>
         <Grid size={10}>
-          <Title text="Detalle de ingreso" mb={0} />
+          <Title
+            text="Detalle de ingreso"
+            mb={0}
+            fontSize={isResponsive ? 30 : 40}
+          />
         </Grid>
         <Grid
           size={2}
