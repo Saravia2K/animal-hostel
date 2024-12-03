@@ -1,17 +1,11 @@
-.carousel {
-  gap: 50px;
+.carousel .carousel-item {
+  cursor: pointer;
+  padding: 15px;
 
-  .carousel-item {
-    cursor: pointer;
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 5px;
-
-    .dog-card-img {
-      width: 75%;
-      border: 2px solid gray;
-      border-radius: 100%;
-    }
+  .dog-card-img {
+    width: 75%;
+    border: 2px solid gray;
+    border-radius: 100%;
   }
 }
 

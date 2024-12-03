@@ -2,40 +2,52 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next-nprogress-bar";
 import dayjs from "dayjs";
+import Carousel, { type ResponsiveType } from "react-multi-carousel";
 import { Box, Typography, Grid2 as Grid } from "@mui/material";
-import Carousel from "react-multi-carousel";
 
 import Title from "@/components/Title";
-import EntryDetailsModal from "@/components/EntryDetailsModal";
+import { EntryDetailsModal } from "@/components/EntryDetails";
 
-import useEntriesByDate from "@/hooks/useEntriesByDate";
+import useEntriesByDate, {
+  type TUseEntriesByDateResponseItem,
+} from "@/hooks/useEntriesByDate";
+import useIsResponsive from "@/hooks/useIsResponsive";
+import { Breakpoints } from "@/consts";
 
 import styles from "./styles.module.scss";
 import petCardImg from "@/assets/images/pet_card_image.png";
 
-const responsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 10,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 5,
+const responsive: ResponsiveType = {
+  mobile: {
+    breakpoint: { min: 0, max: Breakpoints.mobile.max },
+    items: 1,
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 3,
+    breakpoint: { min: Breakpoints.tablet.min, max: Breakpoints.laptop.max },
+    items: 2,
   },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
+  desktop: {
+    breakpoint: { min: Breakpoints.desktop.min, max: Breakpoints.desktop.max },
+    items: 3,
   },
 };
 
 export default function DashboardPage() {
   const { entries } = useEntriesByDate();
   const [entryId, setEntryId] = useState<number>();
+  const router = useRouter();
+  const isResponsive = useIsResponsive();
+
+  const handleEntryClick = (e: TUseEntriesByDateResponseItem) => {
+    if (!isResponsive) {
+      setEntryId(e.id_entry);
+      return;
+    }
+
+    router.push(`/dashboard/reportes/${e.id_entry}`);
+  };
 
   const listFormatter = new Intl.ListFormat("es", {
     style: "long",
@@ -60,7 +72,15 @@ export default function DashboardPage() {
         itemClass={styles["carousel-item"]}
       >
         {entries?.map((e) => (
-          <Box key={e.id_entry} onClick={() => setEntryId(e.id_entry)}>
+          <Box
+            key={e.id_entry}
+            bgcolor="#fff"
+            py={3}
+            px={1}
+            borderRadius="15px"
+            height="100%"
+            onClick={() => handleEntryClick(e)}
+          >
             <Box
               display="flex"
               flexDirection="column"
@@ -80,12 +100,12 @@ export default function DashboardPage() {
               />
             </Box>
             <Grid container rowSpacing={2} mt={3} px={3}>
-              <Grid size={6}>Llegada:</Grid>
-              <Grid size={6} textAlign="end" fontWeight="bold">
+              <Grid size={4}>Llegada:</Grid>
+              <Grid size={8} textAlign="end" fontWeight="bold">
                 {dayjs(e.entry_date).format("hh:mm A")}
               </Grid>
-              <Grid size={6}>Servicios:</Grid>
-              <Grid size={6} textAlign="end" fontWeight="bold">
+              <Grid size={4}>Servicios:</Grid>
+              <Grid size={8} textAlign="end" fontWeight="bold">
                 {listFormatter.format(e.services.map((s) => s.name))}
               </Grid>
             </Grid>

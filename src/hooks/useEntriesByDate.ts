@@ -6,7 +6,7 @@ import type { TPet, TService } from "@/types";
 
 export const fetchEntriesByDate = async (
   timestamp: number
-): Promise<TResponse[]> => {
+): Promise<TUseEntriesByDateResponseItem[]> => {
   const response = await fetch(`${API_URL}/entries/with-date/${timestamp}`);
 
   if (!response.ok) {
@@ -20,7 +20,9 @@ export default function useEntriesByDate(date = new Date()) {
   const dayjsDate = dayjs(date);
   const timestamp = dayjsDate.startOf("day").valueOf();
 
-  const { data, refetch, isLoading, error } = useQuery<TResponse[]>({
+  const { data, refetch, isLoading, error } = useQuery<
+    TUseEntriesByDateResponseItem[]
+  >({
     queryFn: () => fetchEntriesByDate(timestamp),
     queryKey: ["entries", dayjsDate.format("DD/MM/YYYY")],
     refetchOnMount: "always",
@@ -34,7 +36,7 @@ export default function useEntriesByDate(date = new Date()) {
   };
 }
 
-type TResponse = {
+export type TUseEntriesByDateResponseItem = {
   id_entry: number;
   pet: TPet;
   services: TService[];
