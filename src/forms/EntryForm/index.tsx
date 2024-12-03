@@ -58,7 +58,8 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
       .required(REQUIRED_MESSAGE),
     advance_payment: yup
       .number()
-      .min(1, "Selecciona un valor mayor a 0")
+      .typeError("El valor debe ser un número mayor o igual a 0")
+      .min(0, "Selecciona un valor mayor o igual a 0")
       .required(REQUIRED_MESSAGE),
   });
   const {
@@ -357,6 +358,8 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
           {...register("advance_payment")}
           label="Anticipo"
           type="number"
+          helperText={errors.advance_payment?.message}
+          error={!!errors.advance_payment?.message}
           slotProps={{
             htmlInput: {
               min: 0,
