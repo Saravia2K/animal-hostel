@@ -166,11 +166,22 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
     setValue("services", servicesList);
 
     const servicesErrors = errors.services?.length || 0;
-    console.log(servicesErrors);
     if (servicesErrors > 0) clearErrors("services");
   };
 
+  const exitSameDateThatGotIn = () => {
+    const inDateObj = new Date(inDate);
+    const outDateObj = new Date(outDate);
+    return (
+      inDateObj.getDate() == outDateObj.getDate() &&
+      inDateObj.getMonth() == outDateObj.getMonth() &&
+      inDateObj.getFullYear() == outDateObj.getFullYear()
+    );
+  };
+
   const inDate = watch("entry_date");
+  const inTime = watch("entry_time");
+  const outDate = watch("exit_date");
   const total = watch("total");
   const formServices = watch("services");
 
@@ -245,6 +256,9 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
               label="Hora de salida"
               value={dayjs(field.value)}
               onChange={field.onChange}
+              minTime={
+                exitSameDateThatGotIn() ? dayjs(new Date(inTime)) : undefined
+              }
               error={!!errors.exit_time}
               helperText={errors.exit_time?.message}
             />
