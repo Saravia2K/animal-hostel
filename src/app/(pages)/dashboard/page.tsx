@@ -32,6 +32,13 @@ const responsive: ResponsiveType = {
     breakpoint: { min: Breakpoints.desktop.min, max: Breakpoints.desktop.max },
     items: 3,
   },
+  desktopXL: {
+    breakpoint: {
+      min: Breakpoints.desktopXL.min,
+      max: Breakpoints.desktopXL.max,
+    },
+    items: 4,
+  },
 };
 
 export default function DashboardPage() {
