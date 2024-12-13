@@ -117,7 +117,7 @@ export async function GET(req: Request) {
         advance_payment: true,
       },
       orderBy: {
-        id_entry: "asc",
+        entry_date: "desc",
       },
     });
 
