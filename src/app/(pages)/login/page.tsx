@@ -3,14 +3,14 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next-nprogress-bar";
 import {
-  TextField,
-  Button,
   Box,
-  Typography,
   Paper,
+  Button,
+  Typography,
   CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
+import Input from "@/components/Input";
 
 import styles from "./styles.module.scss";
 
@@ -69,22 +69,24 @@ const Login = () => {
         >
           Bienvenido
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          display="flex"
+          flexDirection="column"
+          gap={3}
+        >
+          <Input
             fullWidth
             label="Usuario"
-            variant="outlined"
-            margin="normal"
             {...register("email", { required: "El usuario es requerido" })}
             error={!!errors.email}
             helperText={errors.email?.message}
           />
-          <TextField
+          <Input
             fullWidth
             label="Contraseña"
             type="password"
-            variant="outlined"
-            margin="normal"
             {...register("password", {
               required: "La contraseña es requerida",
             })}
@@ -110,7 +112,7 @@ const Login = () => {
               "Iniciar Sesión"
             )}
           </Button>
-        </form>
+        </Box>
       </Paper>
     </Box>
   );
