@@ -33,7 +33,10 @@ export default function ResponsiveSidebar({
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation">
       <List>
-        <ListItem disablePadding>
+        <ListItem
+          disablePadding
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           <ListItemIcon onClick={() => handleListItemClick("/dashboard")}>
             <Image src={logo} alt="Animal Hostel logo" width={100} />
           </ListItemIcon>

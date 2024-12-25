@@ -8,12 +8,12 @@
 }
 
 .logoContainer {
-  width: 350px;
-  height: 200px;
+  height: 300px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1;
 
   img {
     width: 100%;
