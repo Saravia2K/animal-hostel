@@ -206,7 +206,6 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
               onChange={field.onChange}
               error={!!errors.entry_date}
               helperText={errors.entry_date?.message}
-              minDate={dayjs(new Date())}
             />
           )}
         />
