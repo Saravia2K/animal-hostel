@@ -158,8 +158,8 @@ export default function Table({ data }: TProps) {
         slotProps={{
           pagination: {
             labelRowsPerPage: "Reportes por página:",
-            labelDisplayedRows: (paginationInfo) =>
-              `${paginationInfo.from} de ${paginationInfo.count}`,
+            labelDisplayedRows: ({ from, to, count }) =>
+              `${from}-${to} de ${count}`,
           },
         }}
         pageSizeOptions={[25, 50, 75, 100, { value: -1, label: "Todos" }]}
