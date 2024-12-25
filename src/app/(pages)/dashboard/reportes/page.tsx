@@ -44,15 +44,13 @@ export default function ReportesPage() {
       );
 
     // Filtro por servicio
-    filteredEntries =
-      services.length == 0
-        ? entries
-        : filteredEntries.filter((fe) =>
-            services.length > 1
-              ? fe.services.length >= services.length &&
-                fe.services.every((fes) => services.includes(fes.id_service))
-              : fe.services.some((fes) => services.includes(fes.id_service))
-          );
+    if (services.length)
+      filteredEntries = filteredEntries.filter((fe) =>
+        services.length > 1
+          ? fe.services.length >= services.length &&
+            fe.services.every((fes) => services.includes(fes.id_service))
+          : fe.services.some((fes) => services.includes(fes.id_service))
+      );
 
     setCurrentEntries(filteredEntries);
   }, [filters, entries]);
