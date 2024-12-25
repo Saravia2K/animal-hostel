@@ -8,8 +8,8 @@
 }
 
 .logoContainer {
-  width: 350px; // Definimos el ancho deseado
-  height: 200px; // Definimos el alto deseado (rectangular)
+  width: 350px;
+  height: 200px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -18,7 +18,7 @@
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain; // Ajusta la imagen dentro del contenedor sin distorsión
+    object-fit: contain;
   }
 }
 
