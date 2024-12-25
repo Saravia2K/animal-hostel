@@ -3,38 +3,26 @@
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Grid2 as Grid, Typography } from "@mui/material";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useRouter } from "next-nprogress-bar";
-import PaymentIcon from "@mui/icons-material/Payment";
 
-import Table from "@/components/Table";
+import Table from "./components/Table";
 import Title from "@/components/Title";
 import Select from "@/components/Select";
 import Checkbox from "@/components/Checkbox";
-import { EntryDetailsModal } from "@/components/EntryDetails";
-import PaymentModal from "./PaymentModal";
 
-import deleteEntry from "@/services/entries/deleteEntry";
 import useEntries from "@/hooks/useEntries";
 import useServices from "@/hooks/useServices";
-import useIsResponsive from "@/hooks/useIsResponsive";
 import { COLORS } from "@/consts";
 import type { TEntry } from "@/types";
 
 export default function ReportesPage() {
-  const [entryDetails, setEntryDetails] = useState<TEntryTableField>();
   const [currentEntries, setCurrentEntries] = useState<TEntry[]>([]);
   const [filters, setFilters] = useState({
     month: 0,
     year: years[years.length - 1],
     services: [] as number[],
   });
-  const [entryToPay, setEntryToPay] = useState<TEntryTableField>();
-  const isResponsive = useIsResponsive();
-  const { entries, reloadEntries } = useEntries();
+  const { entries } = useEntries();
   const { services } = useServices();
-  const router = useRouter();
 
   /**
    * Filtros
@@ -81,44 +69,6 @@ export default function ReportesPage() {
 
     services.sort();
     setFilters((f) => ({ ...f, services }));
-  };
-
-  const handleDeleteBtn = (id: number) => {
-    Swal.fire({
-      title: "¿Estás seguro que quieres eliminar esta entrada?",
-      showCancelButton: true,
-      cancelButtonText: "Cancelar",
-      confirmButtonText: "Eliminar",
-      confirmButtonColor: "red",
-      preConfirm: async () => {
-        try {
-          const deleted = await deleteEntry(id);
-
-          if (!deleted) throw Error("Error trying to delete an entry");
-
-          return true;
-        } catch (error) {
-          if (process.env.NODE_ENV == "development") console.error(error);
-          Swal.showValidationMessage("Error al intentar eliminar el cliente");
-        }
-      },
-    }).then(async (v) => {
-      if (v.isConfirmed) {
-        await reloadEntries();
-        toast("Entrada eliminada exitosamente", {
-          type: "info",
-        });
-      }
-    });
-  };
-
-  const handleWatchActionClick = (row: TEntryTableField) => {
-    if (!isResponsive) {
-      setEntryDetails(row);
-      return;
-    }
-
-    router.push(`/dashboard/reportes/${row.id}`);
   };
 
   if (entries == undefined || services == undefined) return <></>;
@@ -197,18 +147,7 @@ export default function ReportesPage() {
         </Grid>
       </Grid>
       <Grid size={12} borderRadius={2} p={3} sx={{ backgroundColor: "#fff" }}>
-        <Table<TEntryTableField>
-          headers={[
-            { id: "id", label: "ID" },
-            { id: "fecha_ingreso", label: "Fecha de ingreso" },
-            { id: "hora_ingreso", label: "Hora de ingreso" },
-            { id: "fecha_salida", label: "Fecha de salida" },
-            { id: "hora_salida", label: "Hora de salida" },
-            { id: "pet", label: "Mascota" },
-            { id: "services", label: "Servicios" },
-            { id: "total", label: "Total" },
-            { id: "remaining", label: "Monto restante" },
-          ]}
+        <Table
           data={currentEntries.map((e) => {
             const entry = dayjs(e.entry_date);
             const exit = dayjs(e.exit_date);
@@ -220,41 +159,13 @@ export default function ReportesPage() {
               fecha_salida: exit.format("DD/MM/YYYY"),
               hora_salida: exit.format("hh:mm A"),
               pet: e.pet.name,
-              services: e.services.map((s) => s.name).join(", "),
-              remaining: `$${e.total - e.advance_payment}`,
-              total: `$${e.total}`,
+              services: e.services.map((s) => s.name),
+              remaining: e.total - e.advance_payment,
+              total: e.total,
             };
           })}
-          actions={{
-            watch: handleWatchActionClick,
-            delete: (row) => handleDeleteBtn(row.id),
-            edit: (row) => router.push(`/dashboard/reportes/${row.id}/editar`),
-          }}
-          forceHideAction={{
-            edit: (row) => dayjs(row.fecha_ingreso).isBefore(dayjs()),
-          }}
-          extraActions={[
-            {
-              icon: <PaymentIcon sx={{ color: "var(--lightGreen)" }} />,
-              onClick: (row) => setEntryToPay(row),
-              forceHideAction: (row) => row.remaining != "$0",
-            },
-          ]}
         />
       </Grid>
-      {entryDetails != undefined && (
-        <EntryDetailsModal
-          open={true}
-          onClose={() => setEntryDetails(undefined)}
-          id={entryDetails.id}
-        />
-      )}
-      {entryToPay != undefined && (
-        <PaymentModal
-          onClose={() => setEntryToPay(undefined)}
-          entry={entryToPay}
-        />
-      )}
     </Grid>
   );
 }

@@ -10,29 +10,28 @@ import Title from "@/components/Title";
 
 import useIsResponsive from "@/hooks/useIsResponsive";
 import updateEntry from "@/services/entries/updateEntry";
-import { type TEntryTableField } from "./page";
+import { type TDataRow } from "../Table";
 
 export default function PaymentModal({ onClose, entry }: TPaymentModalProps) {
   const qc = useQueryClient();
   const isResponsive = useIsResponsive();
 
-  const remainingNumber = +entry.remaining.replace("$", "");
   const {
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
   } = useForm<TFormValues>({
     defaultValues: {
-      payment: remainingNumber.toString(),
+      payment: entry.remaining.toString(),
     },
   });
 
   const onSubmit: SubmitHandler<TFormValues> = async (data) => {
     const paymentAmount = Number(data.payment);
-    const total = Number(entry.total.replace("$", ""));
+    const total = Number(entry.total);
 
     const success = await updateEntry(entry.id, {
-      advance_payment: total - remainingNumber + paymentAmount,
+      advance_payment: total - entry.remaining + paymentAmount,
     });
 
     if (success) {
@@ -63,7 +62,7 @@ export default function PaymentModal({ onClose, entry }: TPaymentModalProps) {
                   message: "El monto debe ser mayor o igual a 0",
                 },
                 max: {
-                  value: remainingNumber,
+                  value: entry.remaining,
                   message: `El monto no debe exceder el saldo restante de ${entry.remaining}`,
                 },
               }}
@@ -99,7 +98,7 @@ export default function PaymentModal({ onClose, entry }: TPaymentModalProps) {
   );
 }
 
-type TPaymentModalProps = { onClose: () => void; entry: TEntryTableField };
+type TPaymentModalProps = { onClose: () => void; entry: TDataRow };
 type TFormValues = {
   payment: string;
 };

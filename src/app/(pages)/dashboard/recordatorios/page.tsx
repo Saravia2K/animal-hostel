@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import CheckIcon from "@mui/icons-material/Check";
 
 import Title from "@/components/Title";
-import EntryDetailsModal from "@/components/EntryDetailsModal";
 
 import useEntriesByDate, {
   TUseEntriesByDateResponseItem,
@@ -16,6 +15,7 @@ import useEntriesByDate, {
 import useLoadingOverlay from "@/hooks/useLoadingOverlay";
 import useIsResponsive from "@/hooks/useIsResponsive";
 import updateEntry from "@/services/entries/updateEntry";
+import { EntryDetailsModal } from "@/components/EntryDetails";
 
 export default function RecordatoriosPage() {
   const [detailsId, setDetailsId] = useState<number>();
