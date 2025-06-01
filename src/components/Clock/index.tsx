@@ -25,6 +25,7 @@ export default function Clock(props: TProps) {
         {label}
       </Box>
       <MobileTimePicker
+        ampm
         defaultValue={dayjs(todayTime)}
         slotProps={{
           textField: {
