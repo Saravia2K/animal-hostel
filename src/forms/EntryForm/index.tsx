@@ -88,9 +88,19 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
     resolver: yupResolver(formValidationSchema),
   });
 
+  const inDate = watch("entry_date");
+  const inTime = watch("entry_time");
+  const outDate = watch("exit_date");
+  const total = watch("total");
+  const formServices = watch("services");
+
   useEffect(() => {
     if (initialValues) reset(initialValues);
   }, [initialValues, reset]);
+
+  useEffect(() => {
+    setValue("exit_time", dayjs(inTime).add(1, "minute").toISOString());
+  }, [outDate, inTime, setValue]);
 
   const combineDateAndTime = (date: string, time: string) => {
     const combined = dayjs(date)
@@ -183,12 +193,6 @@ export default function EntryForm({ initialValues, onSuccessForm }: TProps) {
 
     return formatDate(inDateObj) == formatDate(outDateObj);
   };
-
-  const inDate = watch("entry_date");
-  const inTime = watch("entry_time");
-  const outDate = watch("exit_date");
-  const total = watch("total");
-  const formServices = watch("services");
 
   if (!pets || !services || !questions) return <></>;
   return (
